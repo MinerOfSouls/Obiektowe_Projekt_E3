@@ -7,6 +7,7 @@ Do zrobienia model:
 - Parametry symulacji
 - Wariant roślin
 - drugi wariant rozmnazania
+
 Do zrobienia aplikacja:
 - wybór konfiguracji
 - widok symulacji

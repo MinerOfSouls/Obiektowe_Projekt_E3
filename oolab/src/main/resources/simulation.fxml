@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            minHeight="550.0" minWidth="850.0"
+            fx:controller="agh.ics.oop.presenter.SimulationPresenter">
+    <top>
+        <TextField fx:id="moveList" text="tmp"/>
+    </top>
+    <center>
+        <GridPane fx:id="mapGrid" gridLinesVisible="true" alignment="CENTER" />
+    </center>
+    <left>
+        <Label fx:id="moveInfoLabel" textAlignment="CENTER" />
+    </left>
+    <bottom>
+        <Button fx:id="simulationStart" text="Start" onAction="#onSimulationStartClicked"/>
+    </bottom>
+</BorderPane>

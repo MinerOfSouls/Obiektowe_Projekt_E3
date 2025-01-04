@@ -1,23 +1,37 @@
 package agh.ics.oop.model.util;
 
 import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.maps.Boundary;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class RandomPositionGenerator implements Iterable<Vector2d>{
     private List<Vector2d> positions = new ArrayList<>();
     private int amount;
 
-    public RandomPositionGenerator(int width, int height, int amountGiven){
+    public RandomPositionGenerator(Boundary coveredRegion, int amountGiven,  Collection<Vector2d> excludedLocations,
+        List<Boundary> excludedRegions){
         amount=amountGiven;
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                positions.add(new Vector2d(i,j));
+        for (int i = coveredRegion.lowerLeft().getX(); i <= coveredRegion.upperRight().getX(); i++) {
+            for (int j = coveredRegion.lowerLeft().getY(); j <= coveredRegion.upperRight().getY(); j++) {
+                var vector = new Vector2d(i,j);
+                if(checkVectorAvailability(vector, excludedLocations, excludedRegions)){
+                    positions.add(vector);
+                }
             }
         }
+    }
+
+    private boolean checkVectorAvailability(Vector2d vector, Collection<Vector2d> excludedLocations, List<Boundary> excludedRegions){
+        if(excludedLocations.contains(vector)){
+            return false;
+        }
+        for(Boundary bounds: excludedRegions){
+            if(vector.follows(bounds.lowerLeft()) && vector.precedes(bounds.upperRight())){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -29,10 +43,10 @@ public class RandomPositionGenerator implements Iterable<Vector2d>{
         int iteratorEnd;
         int counter = 0;
         List<Vector2d> positions;
-        Random randomiser = new Random();
+        Random randomizer = new Random();
 
         public RandomPositionIterator(List<Vector2d> positionsToRandomise, int outputAmount){
-            iteratorEnd=outputAmount;
+            iteratorEnd=Math.min(outputAmount, positionsToRandomise.size());
             positions=positionsToRandomise;
         }
 
@@ -43,7 +57,7 @@ public class RandomPositionGenerator implements Iterable<Vector2d>{
 
         @Override
         public Vector2d next() {
-            int index = randomiser.nextInt(positions.size());
+            int index = randomizer.nextInt(positions.size());
             Vector2d output = positions.get(index);
             positions.remove(index);
             positions.add(index, positions.getLast());

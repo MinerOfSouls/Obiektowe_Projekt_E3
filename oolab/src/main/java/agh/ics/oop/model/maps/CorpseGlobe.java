@@ -48,12 +48,15 @@ public class CorpseGlobe extends GlobeMap{
             if (choice < 20 && steppeIterator.hasNext()) {
                 Vector2d position = (Vector2d) steppeIterator.next();
                 grasses.put(position, new Grass(position));
+                notifyListeners(String.format("Grass grows at %s", position));
             } else if (corpseIterator.hasNext()) {
                 Vector2d position = (Vector2d) corpseIterator.next();
                 grasses.put(position, new Grass(position));
+                notifyListeners(String.format("Grass grows at %s", position));
             } else if (steppeIterator.hasNext()) {
                 Vector2d position = (Vector2d) steppeIterator.next();
                 grasses.put(position, new Grass(position));
+                notifyListeners(String.format("Grass grows at %s", position));
             } else {
                 break;
             }

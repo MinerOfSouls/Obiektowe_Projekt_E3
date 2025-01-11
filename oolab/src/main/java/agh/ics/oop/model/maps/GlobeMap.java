@@ -4,16 +4,16 @@ import agh.ics.oop.model.*;
 import agh.ics.oop.model.elements.Animal;
 import agh.ics.oop.model.elements.Grass;
 import agh.ics.oop.model.elements.WorldElement;
-import agh.ics.oop.model.util.MapVisualizer;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 public abstract class GlobeMap implements MoveValidator {
 
     protected final Map<Vector2d, List<Animal>> animals = new HashMap<>();
     protected final Map<Vector2d, Grass> grasses = new HashMap<>();
+    protected final List<GlobeChangeListener> listeners = new ArrayList<>();
+
     private final int id;
     protected final Boundary bounds;
     protected final int growthFactor;
@@ -39,13 +39,17 @@ public abstract class GlobeMap implements MoveValidator {
         else{
             animals.put(animal.getPosition(), new ArrayList<>(List.of(animal)));
         }
-
+        notifyListeners(String.format("Animal placed at %s", animal.getPosition()));
     }
 
     //TODO: left and right wrapping
     public void move(Animal animal, MoveDirection direction) {
         var oldPosition = animal.getPosition();
         animal.move(direction, this);
+        var newPosition = animal.getPosition();
+        if(!newPosition.equals(oldPosition)){
+            notifyListeners(String.format("Animal moves from %s to %s", oldPosition, newPosition));
+        }
     }
 
     public abstract void grow();
@@ -70,7 +74,7 @@ public abstract class GlobeMap implements MoveValidator {
 
     public Collection<WorldElement> getElements() {
         Stream<WorldElement> animalsStream = animals.values().stream()
-                .flatMap(list -> list.stream())
+                .flatMap(Collection::stream)
                 .map(animal -> {return (WorldElement) animal;});
         Stream<WorldElement> grassStream = grasses.values().stream()
                 .map(grass -> {return (WorldElement) grass;});
@@ -84,4 +88,19 @@ public abstract class GlobeMap implements MoveValidator {
     public int getID() {
         return id;
     }
+
+    public void addListener(GlobeChangeListener other){
+        listeners.add(other);
+    }
+
+    public void removeListener(GlobeChangeListener other){
+        listeners.remove(other);
+    }
+
+    protected void notifyListeners(String message){
+        for(GlobeChangeListener l: listeners){
+            l.mapChanged(message);
+        }
+    }
+
 }

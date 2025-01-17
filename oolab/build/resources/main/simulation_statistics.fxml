@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="agh.ics.oop.presenter.StatisticsPresenter"
+      spacing="10" fx:id="stats">
+    <padding>
+        <Insets top="10" bottom="10" left="10" right="10"/>
+    </padding>
+    <fx:define><fx:include source="animal_statistics.fxml" fx:id="animalStats"/></fx:define>
+
+    <Label text="Statystyki symulacji"/>
+    <Label fx:id="animalAmountLabel"/>
+    <Label fx:id="grassAmountLabel"/>
+    <Label fx:id="freeSpaceLabel"/>
+    <VBox fx:id="popularGenotypesVbox"/>
+    <Label fx:id="averageEnergyLevel"/>
+    <Label fx:id="averageLifeSpanLabel"/>
+    <Label fx:id="averageChildAmountLabel"/>
+
+</VBox>

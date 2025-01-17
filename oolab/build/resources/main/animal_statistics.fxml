@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="agh.ics.oop.presenter.AnimalPresenter">
+    <Label text="Statystyki śledzonego zwiarzaka:"/>
+    <Label fx:id="trackedAnimalGenomeLabel"/>
+    <Label fx:id="trackedAnimalEnergyLabel"/>
+    <Label fx:id="trackedAnimalEatenPlantsLabel"/>
+    <Label fx:id="trackedAnimalDirectChildrenLabel"/>
+    <Label fx:id="trackedAnimalAllChildrenLabel"/>
+    <Label fx:id="trackedAnimalDaysSurviedLabel"/>
+    <Label fx:id="trackedAnimalDeathDayLabel"/>
+</VBox>

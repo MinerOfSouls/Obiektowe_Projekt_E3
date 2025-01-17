@@ -6,7 +6,7 @@ import agh.ics.oop.model.util.RandomPositionGenerator;
 
 import java.util.*;
 
-public class CorpseGlobe extends GlobeMap{
+public class CorpseGlobe extends AbstractGlobeMap {
 
     private List<Vector2d> corpses = new ArrayList<>();
     private List<Integer> decayTimers = new ArrayList<>();
@@ -14,8 +14,9 @@ public class CorpseGlobe extends GlobeMap{
             new Vector2d(0, 1), new Vector2d(0, -1));
     private final int decayTime;
 
-    public CorpseGlobe(int givenId, int givenWidth, int givenHeight, int givenGrowthFactor, int givenDecayTime) {
-        super(givenId, givenWidth, givenHeight, givenGrowthFactor);
+    public CorpseGlobe(int givenId, int givenWidth, int givenHeight, int startingPlantAmount,
+                               int givenDecayTime) {
+        super(givenId, givenWidth, givenHeight, startingPlantAmount);
         decayTime = givenDecayTime;
     }
 
@@ -30,7 +31,7 @@ public class CorpseGlobe extends GlobeMap{
     }
 
     @Override
-    public void grow() {
+    public void grow(int amount) {
         List<Vector2d> corpseNeighbours = new ArrayList<>();
         for (Vector2d corpse : corpses) {
             for (Vector2d neighbour : neighbours) {
@@ -40,10 +41,10 @@ public class CorpseGlobe extends GlobeMap{
         Collections.shuffle(corpseNeighbours);
         Collection<Vector2d> excluded = grasses.keySet();
         excluded.addAll(corpseNeighbours);
-        RandomPositionGenerator steppeGenerator = new RandomPositionGenerator(bounds, growthFactor, excluded, List.of());
+        RandomPositionGenerator steppeGenerator = new RandomPositionGenerator(bounds, amount, excluded, List.of());
         Iterator corpseIterator = corpseNeighbours.iterator();
         Iterator steppeIterator = steppeGenerator.iterator();
-        for (int i = 0; i < growthFactor; i++) {
+        for (int i = 0; i < amount; i++) {
             int choice = randomizer.nextInt(99);
             if (choice < 20 && steppeIterator.hasNext()) {
                 Vector2d position = (Vector2d) steppeIterator.next();

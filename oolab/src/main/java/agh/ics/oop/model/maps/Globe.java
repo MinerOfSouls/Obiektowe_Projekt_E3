@@ -15,7 +15,7 @@ public interface Globe extends MoveValidator {
 
     public void place(Animal animal) throws IncorrectPositionException;
 
-    public void move(Animal animal, MoveDirection direction);
+    public void move(Animal animal);
 
     public void grow(int amount);
 

@@ -98,12 +98,12 @@ public class SettingsPresenter {
             case 0 -> {
                 currentMapId++;
                 map = new EquatorGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
-                        startingPlantAmountSpinner.getValue());
+                        startingPlantAmountSpinner.getValue(), startingEnergySpinner.getValue());
             }
             case 1 -> {
                 currentMapId++;
                 map = new CorpseGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
-                        startingPlantAmountSpinner.getValue(), decayTimeSpinner.getValue());
+                        startingPlantAmountSpinner.getValue(), decayTimeSpinner.getValue(), startingEnergySpinner.getValue());
             }
         }
         return null;

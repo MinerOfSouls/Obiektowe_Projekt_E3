@@ -10,6 +10,7 @@ import agh.ics.oop.model.maps.Boundary;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -34,8 +35,8 @@ public class GlobePresenter implements GlobeChangeListener {
 
     private Map<EventHandler<ActionEvent>, Animal> animals = new HashMap<>();
 
-    private int rowHeight = 10;
-    private int collumnWidth = 10;
+    private int rowHeight = 30;
+    private int collumnWidth = 30;
 
     public void initialize(){
         content.setLeft(statistics);
@@ -81,9 +82,14 @@ public class GlobePresenter implements GlobeChangeListener {
         Boundary bounds = map.getCurrentBounds();
         int lowerZero = bounds.upperRight().getX();
         for(Animal animal : map.getTopAnimals()){
-            Button animalButton = new Button();
+            ImageView animalTexture = new ImageView(animal.getTexture());
+            animalTexture.setFitWidth(collumnWidth);
+            animalTexture.setFitHeight(rowHeight);
+            Button animalButton = new Button("", animalTexture);
+            animalButton.setPadding(Insets.EMPTY);
             animalButton.setMaxWidth(collumnWidth);
             animalButton.setMaxHeight(rowHeight);
+            animalButton.setBackground(null);
             EventHandler<ActionEvent> action = new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
@@ -91,10 +97,6 @@ public class GlobePresenter implements GlobeChangeListener {
                 }
             };
             animals.put(action, animal);
-            animalButton.setBackground(
-                    new Background(
-                            new BackgroundImage(animal.getTexture(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)
-                    ));
             animalButton.setOnAction(action);
             globe.add(animalButton, animal.getPosition().getX(), lowerZero - animal.getPosition().getY());
         }

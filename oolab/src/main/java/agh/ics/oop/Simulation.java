@@ -27,8 +27,9 @@ public class Simulation implements Runnable {
     public void run(){
         int current=0;
         try {
-            for (MoveDirection command : moves) {
-                map.move(animals.get(current), command);
+            while(true) {
+                map.increaseTime();
+                map.move(animals.get(current));
                 current = (current + 1) % animals.size();
                 Thread.sleep(500);
             }

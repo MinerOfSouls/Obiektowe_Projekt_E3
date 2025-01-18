@@ -30,11 +30,11 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public void move(Animal animal, MoveDirection direction) {
+    public void move(Animal animal ) {
         animals.remove(animal.getPosition());
         var oldPosition = animal.getPosition();
         var oldFacing = animal.getFacing();
-        animal.move(direction,this);
+        animal.move(this);
         animals.put(animal.getPosition(),animal);
         var newPosition = animal.getPosition();
         var newFacing = animal.getFacing();

@@ -15,8 +15,8 @@ public class CorpseGlobe extends AbstractGlobeMap {
     private final int decayTime;
 
     public CorpseGlobe(int givenId, int givenWidth, int givenHeight, int startingPlantAmount,
-                               int givenDecayTime) {
-        super(givenId, givenWidth, givenHeight, startingPlantAmount);
+                               int givenDecayTime, int givenEnergy) {
+        super(givenId, givenWidth, givenHeight, startingPlantAmount, givenEnergy);
         decayTime = givenDecayTime;
     }
 

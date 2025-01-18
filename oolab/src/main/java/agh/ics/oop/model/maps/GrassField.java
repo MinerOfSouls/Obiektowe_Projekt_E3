@@ -11,6 +11,7 @@ import java.lang.Math;
 
 public class GrassField extends AbstractWorldMap {
     private final Map<Vector2d, Grass> grasses = new HashMap<>();
+    private int time;
 
     public GrassField(int grassAmount, int givenID){
         super(givenID);
@@ -20,6 +21,7 @@ public class GrassField extends AbstractWorldMap {
         for(Vector2d grassPosition : randomPositionGenerator) {
             grasses.put(grassPosition, new Grass(grassPosition));
         }
+        time=0;
 
     }
 
@@ -61,5 +63,8 @@ public class GrassField extends AbstractWorldMap {
             } else{topBoundary=position;}
         }
         return new Boundary(bottomBoundary,topBoundary);
+    }
+    public void increaseTime() {
+        this.time +=1;
     }
 }

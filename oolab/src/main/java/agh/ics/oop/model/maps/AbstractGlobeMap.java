@@ -4,6 +4,7 @@ import agh.ics.oop.model.*;
 import agh.ics.oop.model.elements.Animal;
 import agh.ics.oop.model.elements.Grass;
 import agh.ics.oop.model.elements.WorldElement;
+import agh.ics.oop.model.util.AnimalComparator;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -13,21 +14,48 @@ public abstract class AbstractGlobeMap implements Globe {
     protected final Map<Vector2d, List<Animal>> animals = new HashMap<>();
     protected final Map<Vector2d, Grass> grasses = new HashMap<>();
     protected final List<GlobeChangeListener> listeners = new ArrayList<>();
-
+    private final int startEnergy;
+    private int time;
     private final int id;
     protected final Boundary bounds;
     protected Random randomizer = new Random();
 
-    public AbstractGlobeMap(int givenId, int givenWidth, int givenHeight, int startingPlantAmount){
+    public AbstractGlobeMap(int givenId, int givenWidth, int givenHeight, int startingPlantAmount, int givenStartEnergy){
         id = givenId;
         bounds = new Boundary(new Vector2d(0,0),new Vector2d(givenWidth-1, givenHeight-1));
         grow(startingPlantAmount);
+        startEnergy = givenStartEnergy;
+        time=0;
+    }
+
+    public void increaseTime() {
+        this.time +=1;
     }
 
     public boolean canMoveTo(Vector2d position) {
         return bounds.upperRight().getY() >= position.getY() && bounds.lowerLeft().getY() <= position.getY();
     }
-
+    public void animalBreeding(){
+        for (List<Animal> animalList : animals.values()) {
+            if(animalList.size() >= 2){
+                animalList.sort(new AnimalComparator());
+                if(animalList.get(0).getEnergy() >= 0.5 * startEnergy &&
+                        animalList.get(1).getEnergy() >= 0.5 * startEnergy){
+                    Vector2d childPosition = animalList.get(0).getPosition();
+                    Animal child = new Animal(childPosition, animalList.get(0), animalList.get(1),startEnergy,time);
+                    animalList.get(0).setEnergy((int) (animalList.get(0).getEnergy() - 0.25 * startEnergy));
+                    animalList.get(1).setEnergy((int) (animalList.get(1).getEnergy() - 0.25 * startEnergy));
+                    animalList.get(0).increaseChilds();
+                    animalList.get(1).increaseChilds();
+                    try {
+                        place(child);
+                    } catch (IncorrectPositionException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
     public void place(Animal animal) throws IncorrectPositionException {
         if(!canMoveTo(animal.getPosition())){
             throw new IncorrectPositionException(animal.getPosition());
@@ -42,9 +70,9 @@ public abstract class AbstractGlobeMap implements Globe {
     }
 
     //TODO: left and right wrapping
-    public void move(Animal animal, MoveDirection direction) {
+    public void move(Animal animal) {
         var oldPosition = animal.getPosition();
-        animal.move(direction, this);
+        animal.move( this);
         var newPosition = animal.getPosition();
         if(!newPosition.equals(oldPosition)){
             notifyListeners(String.format("Animal moves from %s to %s", oldPosition, newPosition));

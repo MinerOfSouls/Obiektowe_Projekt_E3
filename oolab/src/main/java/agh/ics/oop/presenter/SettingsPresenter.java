@@ -83,7 +83,7 @@ public class SettingsPresenter {
         statisticsSaveCheckBox.setSelected(false);
     }
 
-    public void mapVariantSelected(ActionEvent actionEvent) {
+    public void mapVariantSelected(javafx.event.ActionEvent actionEvent) {
         switch (mapVariantComboBox.getSelectionModel().getSelectedIndex()){
             case 0 -> {
                 decayTimeLabel.visibleProperty().setValue(false);
@@ -101,7 +101,7 @@ public class SettingsPresenter {
     }
 
     private AbstractGlobeMap getSelectedMap(){
-        AbstractGlobeMap map = null;
+        AbstractGlobeMap map;
 
         boolean animalVariant;
         if (behaviourComboBox.getSelectionModel().getSelectedIndex() == 1 || behaviourComboBox.getValue().startsWith("2")){

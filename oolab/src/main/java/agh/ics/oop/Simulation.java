@@ -32,6 +32,7 @@ public class Simulation implements Runnable {
                         map.animalBreeding();
                         animals = map.getAnimals();
                         map.grow(growthFactor);
+                        map.removeDeadAnimals();
                         current = 0;
                     }
                 }

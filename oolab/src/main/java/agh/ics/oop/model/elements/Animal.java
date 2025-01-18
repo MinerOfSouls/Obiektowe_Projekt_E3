@@ -21,6 +21,7 @@ public class Animal implements WorldElement {
     private int bornTime;
     private int plantsEaten ;
     private int childs;
+    private int deadTime;
 
     public Animal() {
         position = new Vector2d(2, 2);
@@ -64,6 +65,12 @@ public class Animal implements WorldElement {
         currentGenomeIndex=randomNum;
         bornTime=time;
 
+    }
+    public void setDeathTime(int time){
+        deadTime=time;
+    }
+    public int getDeathTime(){
+        return deadTime;
     }
     public void increasePlantsEaten(){
         plantsEaten++;

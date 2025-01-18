@@ -17,6 +17,7 @@ public abstract class AbstractGlobeMap implements Globe {
     private final int startEnergy;
     private int time;
     private final int id;
+    private final boolean nextGenomeVariant;
     private final int breadingEnergy;
     private final int minimalMutations;
     private final int maximalMutations;
@@ -27,8 +28,10 @@ public abstract class AbstractGlobeMap implements Globe {
     public AbstractGlobeMap(int givenId, int givenWidth,
                             int givenHeight, int startingPlantAmount, int givenStartEnergy,
                             int givenBreadingEnergy,int givenParentBreadingEnergyLoose,
-                            int givenMinimalMutations, int givenMaximalMutations) {
+                            int givenMinimalMutations, int givenMaximalMutations,
+                            boolean givenNextGenomeVariant) {
         id = givenId;
+        nextGenomeVariant = givenNextGenomeVariant;
         minimalMutations = givenMinimalMutations;
         maximalMutations = givenMaximalMutations;
         parentBreadingEnergyLoose = givenParentBreadingEnergyLoose;
@@ -54,7 +57,7 @@ public abstract class AbstractGlobeMap implements Globe {
                         animalList.get(1).getEnergy() >= breadingEnergy){
                     Vector2d childPosition = animalList.get(0).getPosition();
                     Animal child = new Animal(childPosition, animalList.get(0), animalList.get(1),startEnergy,time,
-                            minimalMutations,maximalMutations);
+                            minimalMutations,maximalMutations,nextGenomeVariant);
                     animalList.get(0).setEnergy((int) (animalList.get(0).getEnergy() - parentBreadingEnergyLoose));
                     animalList.get(1).setEnergy((int) (animalList.get(1).getEnergy() - parentBreadingEnergyLoose));
                     animalList.get(0).increaseChilds();

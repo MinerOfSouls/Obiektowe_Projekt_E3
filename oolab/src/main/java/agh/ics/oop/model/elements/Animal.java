@@ -11,6 +11,7 @@ public class Animal implements WorldElement {
     private Vector2d position;
     private List<Integer> genome = new ArrayList<>();
     private List<Animal> childrens = new ArrayList<>();
+    private boolean nextGenomeVariant;
     private int minimalMutations ;
     private int maximalMutations ;
     public int currentGenomeIndex;
@@ -35,8 +36,10 @@ public class Animal implements WorldElement {
     }
 
     public Animal(Vector2d given_position, Animal parent1, Animal parent2,
-                  int given_energy,int time, int minimalMutations, int maximalMutations) {
+                  int given_energy,int time, int minimalMutations, int maximalMutations,
+                  boolean nextGenomeVariant) {
         position = given_position;
+        this.nextGenomeVariant=nextGenomeVariant;
         this.minimalMutations = minimalMutations;
         this.maximalMutations = maximalMutations;
         this.energy=given_energy;
@@ -97,14 +100,14 @@ public class Animal implements WorldElement {
             position = next_position;
         }
         int random = new Random().nextInt(100);
-        if(random<=80) {
-            currentGenomeIndex = (currentGenomeIndex + 1) % genome.size();
-        }
-        else{
-            currentGenomeIndex = new Random().nextInt(genome.size());
+
+            if (random <= 80 && nextGenomeVariant) {
+                currentGenomeIndex = (currentGenomeIndex + 1) % genome.size();
+            } else {
+                currentGenomeIndex = new Random().nextInt(genome.size());
+            }
         }
 
-    }
     public List<Integer> getGenome() {
         return genome;
     }

@@ -1,9 +1,14 @@
 package agh.ics.oop.presenter;
 
 import agh.ics.oop.Simulation;
+import agh.ics.oop.model.IncorrectPositionException;
+import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.elements.Animal;
 import agh.ics.oop.model.maps.AbstractGlobeMap;
+import agh.ics.oop.model.maps.Boundary;
 import agh.ics.oop.model.maps.CorpseGlobe;
 import agh.ics.oop.model.maps.EquatorGlobe;
+import agh.ics.oop.model.util.RandomPositionGenerator;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -27,7 +32,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class SettingsPresenter {
 
@@ -56,13 +63,13 @@ public class SettingsPresenter {
     private int currentMapId = 0;
 
     public void insertDefaults(){
-        mapWidthSpinner.getValueFactory().setValue(100);
-        mapHeightSpinner.getValueFactory().setValue(100);
+        mapWidthSpinner.getValueFactory().setValue(10);
+        mapHeightSpinner.getValueFactory().setValue(10);
 
-        startingPlantAmountSpinner.getValueFactory().setValue(20);
+        startingPlantAmountSpinner.getValueFactory().setValue(5);
         energyPlantSpinner.getValueFactory().setValue(1);
         dailyPlantAmountSpinner.getValueFactory().setValue(5);
-        startingAnimalsSpinner.getValueFactory().setValue(10);
+        startingAnimalsSpinner.getValueFactory().setValue(4);
         genomeLengthSpinner.getValueFactory().setValue(5);
         maxMutationAmountSpinner.getValueFactory().setValue(2);
         minMutationAmountSpinner.getValueFactory().setValue(0);
@@ -94,25 +101,81 @@ public class SettingsPresenter {
 
     private AbstractGlobeMap getSelectedMap(){
         AbstractGlobeMap map;
+
+        boolean animalVariant;
+        if (behaviourComboBox.getSelectionModel().getSelectedIndex() == 1 || behaviourComboBox.getValue().startsWith("2")){
+            animalVariant = true;
+        }
+        else{
+            animalVariant = false;
+        }
+
+
         switch (mapVariantComboBox.getSelectionModel().getSelectedIndex()){
             case 0 -> {
                 currentMapId++;
                 map = new EquatorGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
-                        startingPlantAmountSpinner.getValue(), startingEnergySpinner.getValue());
+                        startingPlantAmountSpinner.getValue(),
+                        satisfiedEnergySpinner.getValue(), birthCostSpinner.getValue(), minMutationAmountSpinner.getValue(),
+                        maxMutationAmountSpinner.getValue(), animalVariant);
             }
             case 1 -> {
                 currentMapId++;
                 map = new CorpseGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
-                        startingPlantAmountSpinner.getValue(), decayTimeSpinner.getValue(), startingEnergySpinner.getValue());
+                        startingPlantAmountSpinner.getValue(), decayTimeSpinner.getValue(),
+                        satisfiedEnergySpinner.getValue(), birthCostSpinner.getValue(), minMutationAmountSpinner.getValue(),
+                        maxMutationAmountSpinner.getValue(), animalVariant);
+            }
+            default -> {
+                if(mapVariantComboBox.getValue().startsWith("2")){
+                    currentMapId++;
+                    map = new CorpseGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
+                            startingPlantAmountSpinner.getValue(), decayTimeSpinner.getValue(),
+                            satisfiedEnergySpinner.getValue(), birthCostSpinner.getValue(), minMutationAmountSpinner.getValue(),
+                            maxMutationAmountSpinner.getValue(), animalVariant);
+                }
+                else{
+                    currentMapId++;
+                    map = new EquatorGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
+                            startingPlantAmountSpinner.getValue(),
+                            satisfiedEnergySpinner.getValue(), birthCostSpinner.getValue(), minMutationAmountSpinner.getValue(),
+                            maxMutationAmountSpinner.getValue(), animalVariant);
+                }
             }
         }
-        return null;
+        return map;
     }
 
-    //todo: selected animal getter
+    private void placeAnimals(AbstractGlobeMap map){
+        RandomPositionGenerator generator = new RandomPositionGenerator(map.getCurrentBounds(),
+                startingAnimalsSpinner.getValue(), List.of(), null);
+        Random random = new Random();
+        boolean animalVariant;
+        if (behaviourComboBox.getSelectionModel().getSelectedIndex() == 1){
+            animalVariant = true;
+        }
+        else{
+            animalVariant = false;
+        }
+        try {
+            for (Vector2d position : generator) {
+                List<Integer> genome = new ArrayList<>();
+                for (int i = 0; i < genomeLengthSpinner.getValue(); i++) {
+                    genome.add(random.nextInt(8));
+                }
+
+                map.place(new Animal(position, genome, startingEnergySpinner.getValue(), 0,
+                        minMutationAmountSpinner.getValue(), maxMutationAmountSpinner.getValue(), animalVariant));
+            }
+        } catch (IncorrectPositionException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public Simulation getSelectedSimulation(){
-        return null;
+        AbstractGlobeMap map = getSelectedMap();
+        placeAnimals(map);
+        return new Simulation(map, dailyPlantAmountSpinner.getValue());
     }
 
     private void createConfigFile(File file) throws ParserConfigurationException, TransformerException {

@@ -17,28 +17,5 @@ public class World {
         }
     }
 
-    public static void main(String[] args) {
-        List<MoveDirection> directions = OptionsParser.parseMoveDirections(args);
-        List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-
-        MapChangeListener display = new ConsoleMapDisplay();
-
-        ArrayList<Simulation> simulations = new ArrayList<>();
-
-        for (int i = 0; i < 200; i++) {
-            GrassField field = new GrassField(10,i);
-            field.registerListener(display);
-            Simulation simulation = new Simulation(positions, directions,field);
-            simulations.add(simulation);
-        }
-
-        SimulationEngine engine = new SimulationEngine(simulations);
-        engine.runAsyncInThreadPool();
-        try {
-            engine.awaitSimulationsEnd();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        System.out.println("System zakończył działanie");
-    }
+    public static void main(String[] args) {}
 }

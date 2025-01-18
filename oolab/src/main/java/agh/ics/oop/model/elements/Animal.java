@@ -1,6 +1,8 @@
 package agh.ics.oop.model.elements;
 
 import agh.ics.oop.model.*;
+import agh.ics.oop.presenter.SimulationPresenter;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,11 +29,17 @@ public class Animal implements WorldElement {
         position = given_position;
     }
 
-    public Animal(Vector2d given_position, List<Integer> genome,int time, int energy) {
+    public Animal(Vector2d given_position, List<Integer> genome,
+                  int given_energy,int time, int minimalMutations, int maximalMutations,
+                  boolean nextGenomeVariant) {
         childs=0;
-        bornTime=time;
-        this.energy=energy;
         position = given_position;
+        this.nextGenomeVariant=nextGenomeVariant;
+        this.minimalMutations = minimalMutations;
+        this.maximalMutations = maximalMutations;
+        this.energy=given_energy;
+        bornTime=time;
+        currentGenomeIndex=0;
         this.genome = genome;
     }
 
@@ -84,6 +92,11 @@ public class Animal implements WorldElement {
 
     public Vector2d getPosition() {
         return position;
+    }
+
+    @Override
+    public Image getTexture() {
+        return SimulationPresenter.animalTextures.get(facing);
     }
 
     public MapDirection getFacing() {

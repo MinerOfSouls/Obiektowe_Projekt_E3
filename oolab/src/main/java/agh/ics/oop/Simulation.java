@@ -1,43 +1,47 @@
 package agh.ics.oop;
-import agh.ics.oop.model.*;
 import agh.ics.oop.model.elements.Animal;
-import agh.ics.oop.model.maps.WorldMap;
+import agh.ics.oop.model.maps.AbstractGlobeMap;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation implements Runnable {
-    private List<Animal> animals = new ArrayList<>();
-    private List<MoveDirection> moves;
-    private WorldMap map;
+    private List<Animal> animals;
+    private AbstractGlobeMap map;
 
-    public Simulation(List<Vector2d> startingPositions,List<MoveDirection> commands, WorldMap givenMap){
-        this.moves=commands;
-        this.map = givenMap;
-        for(Vector2d position : startingPositions){
-            try {
-                var new_animal = new Animal(position);
-                map.place(new_animal);
-                this.animals.add(new_animal);
-            } catch (IncorrectPositionException e){
-                e.printStackTrace();
-            }
-        }
+    int growthFactor;
+
+    public Simulation(AbstractGlobeMap globeMap, int givenGrowthFactor){
+        map = globeMap;
+        animals = globeMap.getAnimals();
+        growthFactor = givenGrowthFactor;
     }
+
     public void run(){
         int current=0;
         try {
             while(true) {
-                map.increaseTime();
-                map.move(animals.get(current));
-                current = (current + 1) % animals.size();
-                if(current== animals.size()-1){
-                    map.animalBreeding();
+                //TODO:ADD STOP LOGIC
+                if(true){
+                    map.move(animals.get(current));
+                    current = current+1;
+                    if(current== animals.size()-1){
+                        map.increaseTime();
+                        map.animalBreeding();
+                        animals = map.getAnimals();
+                        map.grow(growthFactor);
+                        current = 0;
+                    }
                 }
                 Thread.sleep(500);
             }
         } catch (InterruptedException e){
             //ignored
         }
+    }
+
+    public AbstractGlobeMap getMap() {
+        return map;
     }
 }

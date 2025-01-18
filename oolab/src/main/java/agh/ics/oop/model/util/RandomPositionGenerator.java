@@ -26,6 +26,9 @@ public class RandomPositionGenerator implements Iterable<Vector2d>{
         if(excludedLocations.contains(vector)){
             return false;
         }
+        if(excludedRegions == null){
+            return true;
+        }
         for(Boundary bounds: excludedRegions){
             if(vector.follows(bounds.lowerLeft()) && vector.precedes(bounds.upperRight())){
                 return false;

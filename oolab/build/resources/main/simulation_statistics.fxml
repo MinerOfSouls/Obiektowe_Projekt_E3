@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Box?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="agh.ics.oop.presenter.StatisticsPresenter"
@@ -24,5 +25,8 @@
     <Label fx:id="averageEnergyLevel"/>
     <Label fx:id="averageLifeSpanLabel"/>
     <Label fx:id="averageChildAmountLabel"/>
+    <Separator/>
+    <VBox fx:id="animalTrackingVBox"/>
+    <Button fx:id="stopTrackingButton" onAction="#stopTracking"/>
 
 </VBox>

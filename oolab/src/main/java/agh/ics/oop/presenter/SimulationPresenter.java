@@ -1,5 +1,7 @@
 package agh.ics.oop.presenter;
 
+import agh.ics.oop.Simulation;
+import agh.ics.oop.model.MapDirection;
 import com.sun.javafx.collections.ObservableListWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -28,6 +31,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 public class SimulationPresenter {
     public Button defaultValueButton;
@@ -42,6 +46,20 @@ public class SimulationPresenter {
     public Label loadingErrorLabel;
 
     @FXML private SettingsPresenter settingsController;
+
+    public static Map<MapDirection, Image> animalTextures = Map.of(
+            MapDirection.NORTH, new Image("north.png"),
+            MapDirection.NORTHEAST, new Image("northeast.png"),
+            MapDirection.EAST, new Image("east.png"),
+            MapDirection.SOUTHEAST, new Image("southeast.png"),
+            MapDirection.SOUTH, new Image("south.png"),
+            MapDirection.SOUTHWEST, new Image("southwest.png"),
+            MapDirection.WEST, new Image("west.png"),
+            MapDirection.NORTHWEST, new Image("northwest.png")
+    );
+
+    public static Image grassTexture = new Image("grass.png");
+    public static Image groundTexture = new Image("ground.png");
 
     public void initialize(){
         content.centerProperty().setValue(settings);
@@ -58,12 +76,14 @@ public class SimulationPresenter {
 
     public void submitValues(ActionEvent actionEvent) {
         try{
+            Simulation simulation = settingsController.getSelectedSimulation();
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("globe.fxml"));
             BorderPane viewRoot = loader.load();
             GlobePresenter presenter = loader.getController();
-            presenter.setSimulation(settingsController.getSelectedSimulation());
+            presenter.setSimulation(simulation);
+            presenter.mapChanged(simulation.getMap(), "");
             configureStage(stage, viewRoot);
             stage.show();
         } catch (IOException e) {

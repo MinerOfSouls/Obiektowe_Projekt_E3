@@ -7,11 +7,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 public class Animal implements WorldElement {
-    private MapDirection facing = MapDirection.NORTH;
+    private MapDirection facing;
     private Vector2d position;
     private List<Integer> genome = new ArrayList<>();
     public int currentGenomeIndex;
-    private int energy = 100;
+    private int energy ;
+    private int bornTime;
+    private int childs;
 
     public Animal() {
         position = new Vector2d(2, 2);
@@ -21,16 +23,35 @@ public class Animal implements WorldElement {
         position = given_position;
     }
 
-    public Animal(Vector2d given_position, List<Integer> genome) {
+    public Animal(Vector2d given_position, List<Integer> genome,int time) {
+        childs=0;
+        bornTime=time;
         position = given_position;
         this.genome = genome;
     }
 
-    public Animal(Vector2d given_position, Animal parent1, Animal parent2) {
+    public Animal(Vector2d given_position, Animal parent1, Animal parent2, int given_energy,int time) {
         position = given_position;
+        this.energy=given_energy;
         genome = combineGenomes(parent1, parent2);
-    }
+        MapDirection randomDirection = MapDirection.NORTH;
+        int randomNum= new Random().nextInt(genome.size());
+        for (int i = 0; i < randomNum; i++) {
+            randomDirection = randomDirection.next();
+        }
+        currentGenomeIndex=randomNum;
+        bornTime=time;
 
+    }
+    public void increaseChilds(){
+        childs++;
+    }
+    public int getBornTime(){
+        return bornTime;
+    }
+    public int getNumberOfChildrens(){
+        return childs;
+    }
     @Override
     public String toString() {
         return String.format("%s", facing);
@@ -65,7 +86,13 @@ public class Animal implements WorldElement {
         if (movementMap.canMoveTo(next_position)) {
             position = next_position;
         }
-        currentGenomeIndex = (currentGenomeIndex + 1) % genome.size();
+        int random = new Random().nextInt(100);
+        if(random<=80) {
+            currentGenomeIndex = (currentGenomeIndex + 1) % genome.size();
+        }
+        else{
+            currentGenomeIndex = new Random().nextInt(genome.size());
+        }
 
     }
     public List<Integer> getGenome() {

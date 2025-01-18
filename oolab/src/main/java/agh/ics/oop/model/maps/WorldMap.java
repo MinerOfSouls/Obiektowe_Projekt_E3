@@ -52,4 +52,5 @@ public interface WorldMap extends MoveValidator {
     Boundary getCurrentBounds();
 
     int getID();
+    void increaseTime();
 }

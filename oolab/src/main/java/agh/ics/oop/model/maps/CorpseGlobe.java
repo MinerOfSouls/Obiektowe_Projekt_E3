@@ -14,8 +14,8 @@ public class CorpseGlobe extends GlobeMap{
             new Vector2d(0, 1), new Vector2d(0, -1));
     private final int decayTime;
 
-    public CorpseGlobe(int givenId, int givenWidth, int givenHeight, int givenGrowthFactor, int givenDecayTime) {
-        super(givenId, givenWidth, givenHeight, givenGrowthFactor);
+    public CorpseGlobe(int givenId, int givenWidth, int givenHeight, int givenGrowthFactor, int givenDecayTime,int givenEnergy) {
+        super(givenId, givenWidth, givenHeight, givenGrowthFactor,givenEnergy);
         decayTime = givenDecayTime;
     }
 

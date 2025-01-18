@@ -4,6 +4,7 @@ import agh.ics.oop.model.*;
 import agh.ics.oop.model.elements.Animal;
 import agh.ics.oop.model.elements.Grass;
 import agh.ics.oop.model.elements.WorldElement;
+import agh.ics.oop.model.util.AnimalComparator;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -14,6 +15,7 @@ public abstract class GlobeMap implements MoveValidator {
     protected final Map<Vector2d, Grass> grasses = new HashMap<>();
     protected final List<GlobeChangeListener> listeners = new ArrayList<>();
     private final int startEnergy;
+    private int time;
     private final int id;
     protected final Boundary bounds;
     protected final int growthFactor;
@@ -24,20 +26,28 @@ public abstract class GlobeMap implements MoveValidator {
         growthFactor = givenGrowthFactor;
         bounds = new Boundary(new Vector2d(0,0),new Vector2d(givenWidth-1, givenHeight-1));
         startEnergy = givenStartEnergy;
+        time=0;
     }
+
+    public void increaseTime() {
+        this.time +=1;
+    }
+
     public boolean canMoveTo(Vector2d position) {
         return bounds.upperRight().getY() >= position.getY() && bounds.lowerLeft().getY() <= position.getY();
     }
     public void animalBreeding(){
         for (List<Animal> animalList : animals.values()) {
             if(animalList.size() >= 2){
-                animalList.sort(Comparator.comparingInt(Animal::getEnergy).reversed());
+                animalList.sort(new AnimalComparator());
                 if(animalList.get(0).getEnergy() >= 0.5 * startEnergy &&
                         animalList.get(1).getEnergy() >= 0.5 * startEnergy){
                     Vector2d childPosition = animalList.get(0).getPosition();
-                    Animal child = new Animal(childPosition, animalList.get(0), animalList.get(1));
+                    Animal child = new Animal(childPosition, animalList.get(0), animalList.get(1),startEnergy,time);
                     animalList.get(0).setEnergy((int) (animalList.get(0).getEnergy() - 0.25 * startEnergy));
                     animalList.get(1).setEnergy((int) (animalList.get(1).getEnergy() - 0.25 * startEnergy));
+                    animalList.get(0).increaseChilds();
+                    animalList.get(1).increaseChilds();
                     try {
                         place(child);
                     } catch (IncorrectPositionException e) {

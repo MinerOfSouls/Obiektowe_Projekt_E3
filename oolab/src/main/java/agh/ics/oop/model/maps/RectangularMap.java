@@ -5,10 +5,12 @@ import agh.ics.oop.model.Vector2d;
 public class RectangularMap extends AbstractWorldMap {
 
     Boundary mapBounds;
+    private int time;
 
     public RectangularMap(int givenWidth, int givenHeight, int givenID){
         super(givenID);
         mapBounds = new Boundary(new Vector2d(0,0),new Vector2d(givenWidth-1, givenHeight-1));
+        time=0;
     }
 
     @Override
@@ -19,5 +21,8 @@ public class RectangularMap extends AbstractWorldMap {
     @Override
     public Boundary getCurrentBounds() {
         return mapBounds;
+    }
+    public void increaseTime(){
+        time++;
     }
 }

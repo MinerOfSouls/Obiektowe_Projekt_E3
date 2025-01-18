@@ -6,15 +6,14 @@ import agh.ics.oop.model.util.RandomPositionGenerator;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
-public class EquatorGlobe extends GlobeMap{
+public class EquatorGlobe extends AbstractGlobeMap {
 
     private Boundary plentifulAreaBounds;
     private List<Boundary> steppeBounds;
 
-    public EquatorGlobe(int givenId, int givenWidth, int givenHeight, int givenGrowthFactor, int givenStartEnergy) {
-        super(givenId, givenWidth, givenHeight, givenGrowthFactor, givenStartEnergy);
+    public EquatorGlobe(int givenId, int givenWidth, int givenHeight, int startingPlantAmount, , int givenStartEnergy) {
+        super(givenId, givenWidth, givenHeight, startingPlantAmount, givenStartEnergy);
 
         plentifulAreaBounds = new Boundary(new Vector2d(0, (bounds.lowerLeft().getY()*2)/5),
                 new Vector2d(bounds.upperRight().getX(), (bounds.upperRight().getY()*3)/5));
@@ -24,12 +23,12 @@ public class EquatorGlobe extends GlobeMap{
     }
 
     @Override
-    public void grow() {
-        RandomPositionGenerator equatorGenerator = new RandomPositionGenerator(bounds, growthFactor, grasses.keySet(), steppeBounds);
-        RandomPositionGenerator steppeGenerator = new RandomPositionGenerator(bounds, growthFactor, grasses.keySet(), List.of(plentifulAreaBounds));
+    public void grow(int amount) {
+        RandomPositionGenerator equatorGenerator = new RandomPositionGenerator(bounds, amount, grasses.keySet(), steppeBounds);
+        RandomPositionGenerator steppeGenerator = new RandomPositionGenerator(bounds, amount, grasses.keySet(), List.of(plentifulAreaBounds));
         Iterator equatorIterator = equatorGenerator.iterator();
         Iterator steppeIterator = steppeGenerator.iterator();
-        for (int i = 0; i < growthFactor; i++) {
+        for (int i = 0; i < amount; i++) {
             int choice = randomizer.nextInt(99);
             if (choice < 20 && steppeIterator.hasNext()) {
                 Vector2d position = (Vector2d) steppeIterator.next();

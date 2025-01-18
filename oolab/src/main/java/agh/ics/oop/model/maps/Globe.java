@@ -17,7 +17,7 @@ public interface Globe extends MoveValidator {
 
     public void move(Animal animal, MoveDirection direction);
 
-    public void grow();
+    public void grow(int amount);
 
     public void removeDeadAnimals();
 

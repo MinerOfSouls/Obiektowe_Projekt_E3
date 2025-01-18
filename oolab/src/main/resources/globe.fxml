@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="agh.ics.oop.presenter.GlobePresenter"
+            fx:id="content" minHeight="550.0" minWidth="850.0">
+    <fx:define><fx:include source="simulation_statistics.fxml" fx:id="statistics"/></fx:define>
+    <center>
+        <GridPane fx:id="globe">
+
+        </GridPane>
+    </center>
+    <bottom>
+        <HBox alignment="BOTTOM_CENTER" spacing="10">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+            <Button fx:id="highlightGenomeButton" text="Podświetl dominujący genom" onAction="#highlightDominantGenome"/>
+            <Button fx:id="preferedSpacesButton" text="Podświetl preferowane pola" onAction="#highlightPreferredSpaces"/>
+            <Button fx:id="startButton" text="Start" onAction="#startButtonClicked"/>
+            <Button fx:id="stopButton" text="Stop" onAction="#stopButtonClicked"/>
+        </HBox>
+    </bottom>
+</BorderPane>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="agh.ics.oop.presenter.SettingsPresenter"
+          alignment="TOP_CENTER" hgap="10" vgap="10">
+    <padding>
+        <Insets top="10" bottom="10" left="10" right="10"/>
+    </padding>
+    <Label text="Mapa" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <Label text="Szerokość mapy:"
+           GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <Spinner fx:id="mapWidthSpinner"
+             GridPane.columnIndex="1" GridPane.rowIndex="1"
+             editable="true">
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10000000"/>
+        </valueFactory>
+    </Spinner>
+    <Label text="Wysokość mapy:"
+           GridPane.columnIndex="2" GridPane.rowIndex="1" />
+    <Spinner fx:id="mapHeightSpinner"
+             GridPane.columnIndex="3" GridPane.rowIndex="1" editable="true">
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10000000"/>
+        </valueFactory>
+    </Spinner>
+
+    <Label text="Startowe rośliny:"
+           GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <Spinner fx:id="startingPlantAmountSpinner"
+             GridPane.columnIndex="1" GridPane.rowIndex="2" editable="true">
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10000000"/>
+        </valueFactory>
+    </Spinner>
+    <Label text="Energia zapewniana przez roślinę:"
+           GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+    <Spinner fx:id="energyPlantSpinner"
+             GridPane.columnIndex="3" GridPane.rowIndex="2" editable="true">
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10000000"/>
+        </valueFactory>
+    </Spinner>
+    <Label text="Liczba roślin wzrastająca każdego dnia"
+           GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2"/>
+    <Spinner fx:id="dailyPlantAmountSpinner"
+             GridPane.columnIndex="2" GridPane.rowIndex="3" editable="true">
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10000000"/>
+        </valueFactory>
+    </Spinner>
+
+    <Label text="Wariant mapy:"
+           GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    <ComboBox fx:id="mapVariantComboBox"
+              GridPane.columnIndex="1" GridPane.rowIndex="4" onAction="#mapVariantSelected">
+        <value>
+            <String fx:value="1. Zalesione równiki"/>
+        </value>
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="1. Zalesione równiki"/>
+                <String fx:value="2. Życiodajne truchła"/>
+            </FXCollections>
+        </items>
+    </ComboBox>
+    <Label text="Czas rozkładu truchła" fx:id="decayTimeLabel"
+           GridPane.columnIndex="2" GridPane.rowIndex="4" managed="false"/>
+    <Spinner fx:id="decayTimeSpinner" managed="false"
+             GridPane.columnIndex="3" GridPane.rowIndex="4" editable="true">
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10000000"/>
+        </valueFactory>
+    </Spinner>
+
+    <Label text="Zwierzęta: " GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+
+    <Label text="Startowa liczba zwierzaków"
+           GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+    <Spinner fx:id="startingAnimalsSpinner"
+             GridPane.columnIndex="1" GridPane.rowIndex="6" editable="true">
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10000000"/>
+        </valueFactory>
+    </Spinner>
+    <Label text="Startowa energia zwierzaków"
+           GridPane.columnIndex="2" GridPane.rowIndex="6"/>
+    <Spinner fx:id="startingEnergySpinner"
+             GridPane.columnIndex="3" GridPane.rowIndex="6" editable="true">
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10000000"/>
+        </valueFactory>
+    </Spinner>
+    <Label text="Energia najedzenia"
+           GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+    <Spinner fx:id="satisfiedEnergySpinner"
+             GridPane.columnIndex="1" GridPane.rowIndex="7" editable="true">
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10000000"/>
+        </valueFactory>
+    </Spinner>
+    <Label text="Koszt rodzenia"
+           GridPane.columnIndex="2" GridPane.rowIndex="7"/>
+    <Spinner fx:id="birthCostSpinner"
+             GridPane.columnIndex="3" GridPane.rowIndex="7" editable="true">
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10000000"/>
+        </valueFactory>
+    </Spinner>
+
+    <Label text="Minimalna ilość mutacji"
+           GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+    <Spinner fx:id="minMutationAmountSpinner"
+             GridPane.columnIndex="1" GridPane.rowIndex="8" editable="true">
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10000000"/>
+        </valueFactory>
+    </Spinner>
+    <Label text="Maksymalna ilość mutacji"
+           GridPane.columnIndex="2" GridPane.rowIndex="8"/>
+    <Spinner fx:id="maxMutationAmountSpinner"
+             GridPane.columnIndex="3" GridPane.rowIndex="8" editable="true">
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10000000"/>
+        </valueFactory>
+    </Spinner>
+    <Label text="Długość genomu"
+           GridPane.columnIndex="0" GridPane.rowIndex="9"/>
+    <Spinner fx:id="genomeLengthSpinner"
+             GridPane.columnIndex="1" GridPane.rowIndex="9" editable="true">
+        <valueFactory>
+            <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="10000000"/>
+        </valueFactory>
+    </Spinner>
+    <Label text="Wariant zachowania"
+           GridPane.columnIndex="2" GridPane.rowIndex="9"/>
+    <ComboBox fx:id="behaviourComboBox"
+              GridPane.columnIndex="3" GridPane.rowIndex="9">
+        <value>
+            <String fx:value="1. Pełna predestynacja"/>
+        </value>
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="1. Pełna predestynacja"/>
+                <String fx:value="2. Nieco szaleństwa "/>
+            </FXCollections>
+        </items>
+    </ComboBox>
+    <Label text="Inne:" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
+    <Label text="Zapis statystyk do pliku" GridPane.columnIndex="0" GridPane.rowIndex="11"/>
+    <CheckBox fx:id="statisticsSaveCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="11"/>
+</GridPane>

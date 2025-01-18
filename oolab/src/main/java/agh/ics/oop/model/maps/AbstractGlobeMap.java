@@ -9,7 +9,7 @@ import agh.ics.oop.model.util.AnimalComparator;
 import java.util.*;
 import java.util.stream.Stream;
 
-public abstract class GlobeMap implements MoveValidator {
+public abstract class AbstractGlobeMap implements Globe {
 
     protected final Map<Vector2d, List<Animal>> animals = new HashMap<>();
     protected final Map<Vector2d, Grass> grasses = new HashMap<>();
@@ -18,13 +18,12 @@ public abstract class GlobeMap implements MoveValidator {
     private int time;
     private final int id;
     protected final Boundary bounds;
-    protected final int growthFactor;
     protected Random randomizer = new Random();
 
-    public GlobeMap(int givenId, int givenWidth, int givenHeight, int givenGrowthFactor,int givenStartEnergy) {
+    public AbstractGlobeMap(int givenId, int givenWidth, int givenHeight, int startingPlantAmount, int givenStartEnergy){
         id = givenId;
-        growthFactor = givenGrowthFactor;
         bounds = new Boundary(new Vector2d(0,0),new Vector2d(givenWidth-1, givenHeight-1));
+        grow(startingPlantAmount);
         startEnergy = givenStartEnergy;
         time=0;
     }
@@ -79,7 +78,8 @@ public abstract class GlobeMap implements MoveValidator {
             notifyListeners(String.format("Animal moves from %s to %s", oldPosition, newPosition));
         }
     }
-    public abstract void grow();
+
+    public abstract void grow(int amount);
 
     public abstract void removeDeadAnimals();
 
@@ -126,7 +126,7 @@ public abstract class GlobeMap implements MoveValidator {
 
     protected void notifyListeners(String message){
         for(GlobeChangeListener l: listeners){
-            l.mapChanged(message);
+            l.mapChanged(this,message);
         }
     }
 

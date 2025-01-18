@@ -1,100 +1,98 @@
 package agh.ics.oop.presenter;
 
-import agh.ics.oop.OptionsParser;
-import agh.ics.oop.Simulation;
-import agh.ics.oop.SimulationEngine;
-import agh.ics.oop.model.MapChangeListener;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
-import agh.ics.oop.model.elements.WorldElement;
-import agh.ics.oop.model.maps.Boundary;
-import agh.ics.oop.model.maps.GrassField;
-import agh.ics.oop.model.maps.WorldMap;
-import javafx.application.Platform;
+import com.sun.javafx.collections.ObservableListWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import java.util.List;
+import javafx.stage.Stage;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
-public class SimulationPresenter implements MapChangeListener {
-    private WorldMap map;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+public class SimulationPresenter {
+    public Button defaultValueButton;
+    public Button submitValuesButton;
 
     @FXML
-    private TextField moveList;
-    @FXML
-    private Label moveInfoLabel;
-    @FXML
-    private GridPane mapGrid;
+    public GridPane settings;
 
-    public void setMap(WorldMap map) {
-        this.map = map;
+    public BorderPane content;
+    public TextField configNameTextField;
+    public ComboBox<String> configComboBox;
+    public Label loadingErrorLabel;
+
+    @FXML private SettingsPresenter settingsController;
+
+    public void initialize(){
+        content.centerProperty().setValue(settings);
+        configComboBox.setItems(new ObservableListWrapper<>(settingsController.getConfigNames()));
     }
 
-    private void drawMap(){
-        clearGrid();
-        Boundary bounds = map.getCurrentBounds();
-        int xZero = bounds.lowerLeft().getX()-1;
-        int yZero = bounds.upperRight().getY()-1;
-        for (int i = bounds.lowerLeft().getX(); i < bounds.upperRight().getX()+2; i++) {
-            mapGrid.getColumnConstraints().add(new ColumnConstraints(30));
-        }
-        for (int i = bounds.lowerLeft().getY(); i < bounds.upperRight().getY()+1; i++) {
-            mapGrid.getRowConstraints().add(new RowConstraints(30));
-        }
-        for (int i = xZero+1; i < bounds.upperRight().getX() + 1 ; i++) {
-            var label = new Label(String.valueOf(i));
-            mapGrid.add(label, Math.abs(i-xZero),0);
-            GridPane.setHalignment(label, HPos.CENTER);
-        }
-        for (int i = bounds.lowerLeft().getY(); i < yZero + 1; i++) {
-            var label = new Label(String.valueOf(i));
-            mapGrid.add(label, 0, Math.abs(i-yZero)+1);
-            GridPane.setHalignment(label, HPos.CENTER);
-        }
-        var scaleLabel = new Label("y\\x");
-        mapGrid.add(scaleLabel, 0, 0);
-        GridPane.setHalignment(scaleLabel, HPos.CENTER);
-        for (WorldElement element: map.getElements()){
-            var label = new Label(element.toString());
-            mapGrid.add(label,Math.abs(element.getPosition().getX()-xZero),Math.abs(element.getPosition().getY()-yZero)+1);
-            GridPane.setHalignment(label, HPos.CENTER);
+    private void showAvailableConfigurations(){
+
+    }
+
+    public void insertDefaultValuesClicked(ActionEvent actionEvent) {
+        settingsController.insertDefaults();
+    }
+
+    public void submitValues(ActionEvent actionEvent) {
+        try{
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("globe.fxml"));
+            BorderPane viewRoot = loader.load();
+            GlobePresenter presenter = loader.getController();
+            presenter.setSimulation(settingsController.getSelectedSimulation());
+            configureStage(stage, viewRoot);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private void clearGrid() {
-        mapGrid.getChildren().retainAll(mapGrid.getChildren().get(0)); // hack to retain visible grid lines
-        mapGrid.getColumnConstraints().clear();
-        mapGrid.getRowConstraints().clear();
+    private void configureStage(Stage primaryStage, BorderPane viewRoot) {
+        var scene = new Scene(viewRoot);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Simulation app");
+        primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
+        primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
     }
 
-    @Override
-    public void mapChanged(WorldMap worldMap, String message) {
-        System.out.println(message);
-        Platform.runLater(() -> {
-            drawMap();
-            if (moveInfoLabel.getText() == ""){
-                moveInfoLabel.setText(message);
-            } else {
-                String newText = String.format("%s\n%s",moveInfoLabel.getText(),message);
-                moveInfoLabel.setText(newText);
-            }
-        });
+
+    public void saveCurrentConfig(ActionEvent actionEvent) {
+        if (configNameTextField.getCharacters().isEmpty()){
+            loadingErrorLabel.setText("Nazwa konfiguracji pusta");
+            return;
+        }
+        else {
+            loadingErrorLabel.setText("");
+        }
+        settingsController.saveCurrentConfiguration(configNameTextField.getCharacters().toString());
+        configComboBox.setItems(new ObservableListWrapper<>(settingsController.getConfigNames()));
     }
 
-    public void onSimulationStartClicked(ActionEvent actionEvent) {
-        String[] commands = moveList.getText().split(" ");
-        List<MoveDirection> directions = OptionsParser.parseMoveDirections(commands);
-        List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-        GrassField field = new GrassField(10,1);
-        this.setMap(field);
-        field.registerListener(this);
-        Simulation simulation =  new Simulation(positions, directions, field);
-        SimulationEngine engine = new SimulationEngine(List.of(simulation));
-        engine.runAsync();
+    public void loadChosenConfig(ActionEvent actionEvent) {
+        settingsController.readConfiguration(configComboBox.getSelectionModel().getSelectedItem());
     }
 }

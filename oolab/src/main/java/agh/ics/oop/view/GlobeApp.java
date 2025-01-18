@@ -1,13 +1,15 @@
 package agh.ics.oop.view;
+
 import agh.ics.oop.presenter.SimulationPresenter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 
-public class SimulationApp extends Application {
+public class GlobeApp extends Application {
     @Override
     public void start(Stage primaryStage){
         try {
@@ -17,7 +19,9 @@ public class SimulationApp extends Application {
             SimulationPresenter presenter = loader.getController();
             configureStage(primaryStage, viewRoot);
             primaryStage.show();
+            presenter.initialize();
         } catch (IOException e){
+            e.printStackTrace();
             System.out.println("An IO exception has occurred");
         }
     }
@@ -30,4 +34,3 @@ public class SimulationApp extends Application {
         primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
     }
 }
-

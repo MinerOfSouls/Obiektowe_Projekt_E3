@@ -1,12 +1,9 @@
 package agh.ics.oop;
 import agh.ics.oop.model.*;
-import agh.ics.oop.model.maps.GrassField;
-import agh.ics.oop.model.maps.RectangularMap;
 import agh.ics.oop.model.util.ConsoleMapDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class World {
     private static void run(MoveDirection[] directions){

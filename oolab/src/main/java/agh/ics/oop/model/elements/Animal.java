@@ -12,6 +12,10 @@ public class Animal implements WorldElement {
     private MapDirection facing;
     private Vector2d position;
     private List<Integer> genome = new ArrayList<>();
+    private List<Animal> childrens = new ArrayList<>();
+    private boolean nextGenomeVariant;
+    private int minimalMutations ;
+    private int maximalMutations ;
     public int currentGenomeIndex;
     private int energy ;
     private int bornTime;
@@ -25,15 +29,21 @@ public class Animal implements WorldElement {
         position = given_position;
     }
 
-    public Animal(Vector2d given_position, List<Integer> genome,int time) {
+    public Animal(Vector2d given_position, List<Integer> genome,int time, int energy) {
         childs=0;
         bornTime=time;
+        this.energy=energy;
         position = given_position;
         this.genome = genome;
     }
 
-    public Animal(Vector2d given_position, Animal parent1, Animal parent2, int given_energy,int time) {
+    public Animal(Vector2d given_position, Animal parent1, Animal parent2,
+                  int given_energy,int time, int minimalMutations, int maximalMutations,
+                  boolean nextGenomeVariant) {
         position = given_position;
+        this.nextGenomeVariant=nextGenomeVariant;
+        this.minimalMutations = minimalMutations;
+        this.maximalMutations = maximalMutations;
         this.energy=given_energy;
         genome = combineGenomes(parent1, parent2);
         MapDirection randomDirection = MapDirection.NORTH;
@@ -44,6 +54,9 @@ public class Animal implements WorldElement {
         currentGenomeIndex=randomNum;
         bornTime=time;
 
+    }
+    public void addChild(Animal child){
+        childrens.add(child);
     }
     public void increaseChilds(){
         childs++;
@@ -94,14 +107,14 @@ public class Animal implements WorldElement {
             position = next_position;
         }
         int random = new Random().nextInt(100);
-        if(random<=80) {
-            currentGenomeIndex = (currentGenomeIndex + 1) % genome.size();
-        }
-        else{
-            currentGenomeIndex = new Random().nextInt(genome.size());
+
+            if (random <= 80 && nextGenomeVariant) {
+                currentGenomeIndex = (currentGenomeIndex + 1) % genome.size();
+            } else {
+                currentGenomeIndex = new Random().nextInt(genome.size());
+            }
         }
 
-    }
     public List<Integer> getGenome() {
         return genome;
     }
@@ -128,6 +141,12 @@ public class Animal implements WorldElement {
         } else {
             childGenome.addAll(genome2.subList(0, splitPoint));
             childGenome.addAll(genome1.subList(splitPoint, genome1.size()));
+        }
+        int mutations = new Random().nextInt(maximalMutations - minimalMutations) + minimalMutations;
+        for (int i = 0; i < mutations; i++) {
+            int mutationIndex = new Random().nextInt(childGenome.size());
+            int mutationValue = new Random().nextInt(8);
+            childGenome.set(mutationIndex, mutationValue);
         }
 
         return childGenome;

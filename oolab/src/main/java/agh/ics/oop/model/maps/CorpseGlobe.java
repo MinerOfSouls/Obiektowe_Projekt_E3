@@ -18,9 +18,9 @@ public class CorpseGlobe extends AbstractGlobeMap {
                                int givenDecayTime,
                        int givenBreadingEnergy,int givenParentBreadingEnergyLoose,
                        int givenMinimalMutations, int givenMaximalMutations,
-                       boolean givenNextGenomeVariant) {
+                       boolean givenNextGenomeVariant,int givenFoodEnergy) {
         super(givenId, givenWidth, givenHeight, givenBreadingEnergy,
-                givenParentBreadingEnergyLoose, givenMinimalMutations, givenMaximalMutations, givenNextGenomeVariant);
+                givenParentBreadingEnergyLoose, givenMinimalMutations, givenMaximalMutations, givenNextGenomeVariant, givenFoodEnergy);
         decayTime = givenDecayTime;
         grow(startingPlantAmount);
     }

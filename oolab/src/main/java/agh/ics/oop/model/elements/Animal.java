@@ -19,6 +19,7 @@ public class Animal implements WorldElement {
     public int currentGenomeIndex;
     private int energy ;
     private int bornTime;
+    private int plantsEaten ;
     private int childs;
 
     public Animal() {
@@ -33,6 +34,7 @@ public class Animal implements WorldElement {
                   int given_energy,int time, int minimalMutations, int maximalMutations,
                   boolean nextGenomeVariant) {
         childs=0;
+        plantsEaten=0;
         position = given_position;
         this.nextGenomeVariant=nextGenomeVariant;
         this.minimalMutations = minimalMutations;
@@ -51,6 +53,7 @@ public class Animal implements WorldElement {
         this.minimalMutations = minimalMutations;
         this.maximalMutations = maximalMutations;
         this.energy=given_energy;
+        plantsEaten=0;
         genome = combineGenomes(parent1, parent2);
         MapDirection randomDirection = MapDirection.NORTH;
         int randomNum= new Random().nextInt(genome.size());
@@ -60,6 +63,12 @@ public class Animal implements WorldElement {
         currentGenomeIndex=randomNum;
         bornTime=time;
 
+    }
+    public void increasePlantsEaten(){
+        plantsEaten++;
+    }
+    public int getPlantsEaten(){
+        return plantsEaten;
     }
     public void addChild(Animal child){
         childrens.add(child);

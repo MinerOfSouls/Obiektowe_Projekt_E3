@@ -25,6 +25,7 @@ public class Simulation implements Runnable {
                 //TODO:ADD STOP LOGIC
                 if(true){
                     map.move(animals.get(current));
+                    map.eatIfPossible(animals.get(current));
                     current = current+1;
                     if(current== animals.size()-1){
                         map.increaseTime();

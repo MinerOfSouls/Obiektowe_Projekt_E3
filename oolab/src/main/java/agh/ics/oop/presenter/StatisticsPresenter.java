@@ -2,6 +2,7 @@ package agh.ics.oop.presenter;
 
 import agh.ics.oop.model.GlobeChangeListener;
 import agh.ics.oop.model.elements.Animal;
+import agh.ics.oop.model.maps.AbstractGlobeMap;
 import agh.ics.oop.model.maps.Globe;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -34,13 +35,13 @@ public class StatisticsPresenter implements GlobeChangeListener {
         stopTrackingButton.setManaged(false);
     }
 
-    private void updateStatistics(){
+    private void updateStatistics(AbstractGlobeMap map){
 
     }
 
     @Override
-    public void mapChanged(Globe globeMap, String message) {
-        Platform.runLater(this::updateStatistics);
+    public void mapChanged(AbstractGlobeMap globeMap, String message) {
+        Platform.runLater(() -> {updateStatistics(globeMap);});
     }
 
     public void trackAnimal(Animal animal){

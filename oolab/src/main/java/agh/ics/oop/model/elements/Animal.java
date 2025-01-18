@@ -29,11 +29,17 @@ public class Animal implements WorldElement {
         position = given_position;
     }
 
-    public Animal(Vector2d given_position, List<Integer> genome,int time, int energy) {
+    public Animal(Vector2d given_position, List<Integer> genome,
+                  int given_energy,int time, int minimalMutations, int maximalMutations,
+                  boolean nextGenomeVariant) {
         childs=0;
-        bornTime=time;
-        this.energy=energy;
         position = given_position;
+        this.nextGenomeVariant=nextGenomeVariant;
+        this.minimalMutations = minimalMutations;
+        this.maximalMutations = maximalMutations;
+        this.energy=given_energy;
+        bornTime=time;
+        currentGenomeIndex=0;
         this.genome = genome;
     }
 

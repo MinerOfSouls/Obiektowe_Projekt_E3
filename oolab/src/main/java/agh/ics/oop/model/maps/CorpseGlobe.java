@@ -15,13 +15,14 @@ public class CorpseGlobe extends AbstractGlobeMap {
     private final int decayTime;
 
     public CorpseGlobe(int givenId, int givenWidth, int givenHeight, int startingPlantAmount,
-                               int givenDecayTime, int givenStartEnergy,
+                               int givenDecayTime,
                        int givenBreadingEnergy,int givenParentBreadingEnergyLoose,
                        int givenMinimalMutations, int givenMaximalMutations,
                        boolean givenNextGenomeVariant) {
-        super(givenId, givenWidth, givenHeight, startingPlantAmount, givenStartEnergy,givenBreadingEnergy,
+        super(givenId, givenWidth, givenHeight, givenBreadingEnergy,
                 givenParentBreadingEnergyLoose, givenMinimalMutations, givenMaximalMutations, givenNextGenomeVariant);
         decayTime = givenDecayTime;
+        grow(startingPlantAmount);
     }
 
     private void removeDecayedCorpses(){
@@ -45,7 +46,7 @@ public class CorpseGlobe extends AbstractGlobeMap {
         Collections.shuffle(corpseNeighbours);
         Collection<Vector2d> excluded = grasses.keySet();
         excluded.addAll(corpseNeighbours);
-        RandomPositionGenerator steppeGenerator = new RandomPositionGenerator(bounds, amount, excluded, List.of());
+        RandomPositionGenerator steppeGenerator = new RandomPositionGenerator(bounds, amount, excluded, null);
         Iterator corpseIterator = corpseNeighbours.iterator();
         Iterator steppeIterator = steppeGenerator.iterator();
         for (int i = 0; i < amount; i++) {

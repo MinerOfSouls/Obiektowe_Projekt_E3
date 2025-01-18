@@ -1,5 +1,6 @@
 package agh.ics.oop.presenter;
 
+import agh.ics.oop.Simulation;
 import agh.ics.oop.model.MapDirection;
 import com.sun.javafx.collections.ObservableListWrapper;
 import javafx.event.ActionEvent;
@@ -75,12 +76,14 @@ public class SimulationPresenter {
 
     public void submitValues(ActionEvent actionEvent) {
         try{
+            Simulation simulation = settingsController.getSelectedSimulation();
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("globe.fxml"));
             BorderPane viewRoot = loader.load();
             GlobePresenter presenter = loader.getController();
-            presenter.setSimulation(settingsController.getSelectedSimulation());
+            presenter.setSimulation(simulation);
+            presenter.mapChanged(simulation.getMap(), "");
             configureStage(stage, viewRoot);
             stage.show();
         } catch (IOException e) {

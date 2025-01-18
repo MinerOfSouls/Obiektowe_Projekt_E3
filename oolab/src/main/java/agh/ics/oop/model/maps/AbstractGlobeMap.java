@@ -14,7 +14,6 @@ public abstract class AbstractGlobeMap implements Globe {
     protected final Map<Vector2d, List<Animal>> animals = new HashMap<>();
     protected final Map<Vector2d, Grass> grasses = new HashMap<>();
     protected final List<GlobeChangeListener> listeners = new ArrayList<>();
-    private final int startEnergy;
     private int time;
     private final int id;
     private final boolean nextGenomeVariant;
@@ -26,7 +25,7 @@ public abstract class AbstractGlobeMap implements Globe {
     protected Random randomizer = new Random();
 
     public AbstractGlobeMap(int givenId, int givenWidth,
-                            int givenHeight, int startingPlantAmount, int givenStartEnergy,
+                            int givenHeight,
                             int givenBreadingEnergy,int givenParentBreadingEnergyLoose,
                             int givenMinimalMutations, int givenMaximalMutations,
                             boolean givenNextGenomeVariant) {
@@ -37,8 +36,6 @@ public abstract class AbstractGlobeMap implements Globe {
         parentBreadingEnergyLoose = givenParentBreadingEnergyLoose;
         breadingEnergy = givenBreadingEnergy;
         bounds = new Boundary(new Vector2d(0,0),new Vector2d(givenWidth-1, givenHeight-1));
-        grow(startingPlantAmount);
-        startEnergy = givenStartEnergy;
         time=0;
     }
 
@@ -56,7 +53,7 @@ public abstract class AbstractGlobeMap implements Globe {
                 if(animalList.get(0).getEnergy() >= breadingEnergy &&
                         animalList.get(1).getEnergy() >= breadingEnergy){
                     Vector2d childPosition = animalList.get(0).getPosition();
-                    Animal child = new Animal(childPosition, animalList.get(0), animalList.get(1),startEnergy,time,
+                    Animal child = new Animal(childPosition, animalList.get(0), animalList.get(1),2*parentBreadingEnergyLoose,time,
                             minimalMutations,maximalMutations,nextGenomeVariant);
                     animalList.get(0).setEnergy((int) (animalList.get(0).getEnergy() - parentBreadingEnergyLoose));
                     animalList.get(1).setEnergy((int) (animalList.get(1).getEnergy() - parentBreadingEnergyLoose));
@@ -163,6 +160,10 @@ public abstract class AbstractGlobeMap implements Globe {
             );
         }
         return topAnimals;
+    }
+
+    public List<Animal> getAnimals(){
+        return animals.values().stream().flatMap(Collection::stream).toList();
     }
 
 }

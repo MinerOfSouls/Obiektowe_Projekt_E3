@@ -34,6 +34,9 @@ public class GlobePresenter implements GlobeChangeListener {
 
     private Map<EventHandler<ActionEvent>, Animal> animals = new HashMap<>();
 
+    private int rowHeight = 10;
+    private int collumnWidth = 10;
+
     public void initialize(){
         content.setLeft(statistics);
         highlightGenomeButton.visibleProperty().setValue(false);
@@ -44,10 +47,10 @@ public class GlobePresenter implements GlobeChangeListener {
 
     private void drawGrid(Boundary bounds){
         for (int i = bounds.lowerLeft().getX(); i < bounds.upperRight().getX()+2; i++) {
-            globe.getColumnConstraints().add(new ColumnConstraints(50));
+            globe.getColumnConstraints().add(new ColumnConstraints(collumnWidth));
         }
         for (int i = bounds.lowerLeft().getY(); i < bounds.upperRight().getY()+1; i++) {
-            globe.getRowConstraints().add(new RowConstraints(50));
+            globe.getRowConstraints().add(new RowConstraints(rowHeight));
         }
     }
 
@@ -56,6 +59,8 @@ public class GlobePresenter implements GlobeChangeListener {
         for (int i = 0; i < bounds.upperRight().getX()+1; i++) {
             for (int j = 0; j < bounds.upperRight().getY()+1; j++) {
                 ImageView ground = new ImageView(SimulationPresenter.groundTexture);
+                ground.setFitWidth(collumnWidth);
+                ground.setFitHeight(rowHeight);
                 globe.add(ground, i, j);
             }
         }
@@ -66,6 +71,8 @@ public class GlobePresenter implements GlobeChangeListener {
         int lowerZero = bounds.upperRight().getX();
         for(Vector2d location : map.getGrassLocations()){
             ImageView grass = new ImageView(SimulationPresenter.grassTexture);
+            grass.setFitHeight(rowHeight);
+            grass.setFitWidth(collumnWidth);
             globe.add(grass, location.getX(), lowerZero - location.getY());
         }
     }
@@ -75,6 +82,8 @@ public class GlobePresenter implements GlobeChangeListener {
         int lowerZero = bounds.upperRight().getX();
         for(Animal animal : map.getTopAnimals()){
             Button animalButton = new Button();
+            animalButton.setMaxWidth(collumnWidth);
+            animalButton.setMaxHeight(rowHeight);
             EventHandler<ActionEvent> action = new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
@@ -93,6 +102,7 @@ public class GlobePresenter implements GlobeChangeListener {
 
     private void drawMap(AbstractGlobeMap map){
         clearGrid();
+        drawGrid(map.getCurrentBounds());
         drawGround(map);
         drawGrass(map);
         drawAnimals(map);
@@ -128,6 +138,7 @@ public class GlobePresenter implements GlobeChangeListener {
 
     public void setSimulation(Simulation simulation) {
         this.simulation = simulation;
+        simulation.getMap().addListener(statisticsController);
     }
 
     public void highlightDominantGenome(ActionEvent actionEvent) {

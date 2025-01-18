@@ -53,4 +53,5 @@ public interface WorldMap extends MoveValidator {
 
     int getID();
     void increaseTime();
+    void animalBreeding();
 }

@@ -31,6 +31,9 @@ public class Simulation implements Runnable {
                 map.increaseTime();
                 map.move(animals.get(current));
                 current = (current + 1) % animals.size();
+                if(current== animals.size()-1){
+                    map.animalBreeding();
+                }
                 Thread.sleep(500);
             }
         } catch (InterruptedException e){

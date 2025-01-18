@@ -181,4 +181,6 @@ public abstract class AbstractGlobeMap implements Globe {
             return animals.values().stream().flatMap(Collection::stream).toList();
         }
 
-    }
+    public abstract List<Vector2d> getPreferredSpaces();
+
+}

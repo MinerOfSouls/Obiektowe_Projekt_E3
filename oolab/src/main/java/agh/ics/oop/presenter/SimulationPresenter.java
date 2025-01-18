@@ -82,6 +82,7 @@ public class SimulationPresenter {
             loader.setLocation(getClass().getClassLoader().getResource("globe.fxml"));
             BorderPane viewRoot = loader.load();
             GlobePresenter presenter = loader.getController();
+            simulation.getMap().addListener(presenter);
             presenter.setSimulation(simulation);
             presenter.mapChanged(simulation.getMap(), "");
             configureStage(stage, viewRoot);

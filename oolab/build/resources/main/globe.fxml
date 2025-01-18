@@ -26,6 +26,7 @@
             <Button fx:id="preferedSpacesButton" text="Podświetl preferowane pola" onAction="#highlightPreferredSpaces"/>
             <Button fx:id="startButton" text="Start" onAction="#startButtonClicked"/>
             <Button fx:id="stopButton" text="Stop" onAction="#stopButtonClicked"/>
+            <Button fx:id="runButton" text="Uruchom" onAction="#runSimulation"/>
         </HBox>
     </bottom>
 </BorderPane>

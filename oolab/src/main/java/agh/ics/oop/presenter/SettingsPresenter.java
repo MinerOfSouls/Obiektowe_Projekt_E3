@@ -9,6 +9,7 @@ import agh.ics.oop.model.maps.Boundary;
 import agh.ics.oop.model.maps.CorpseGlobe;
 import agh.ics.oop.model.maps.EquatorGlobe;
 import agh.ics.oop.model.util.RandomPositionGenerator;
+import javafx.event.ActionEvent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -82,7 +83,7 @@ public class SettingsPresenter {
         statisticsSaveCheckBox.setSelected(false);
     }
 
-    public void mapVariantSelected(javafx.event.ActionEvent actionEvent) {
+    public void mapVariantSelected(ActionEvent actionEvent) {
         switch (mapVariantComboBox.getSelectionModel().getSelectedIndex()){
             case 0 -> {
                 decayTimeLabel.visibleProperty().setValue(false);
@@ -100,7 +101,7 @@ public class SettingsPresenter {
     }
 
     private AbstractGlobeMap getSelectedMap(){
-        AbstractGlobeMap map;
+        AbstractGlobeMap map = null;
 
         boolean animalVariant;
         if (behaviourComboBox.getSelectionModel().getSelectedIndex() == 1 || behaviourComboBox.getValue().startsWith("2")){
@@ -117,30 +118,14 @@ public class SettingsPresenter {
                 map = new EquatorGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
                         startingPlantAmountSpinner.getValue(),
                         satisfiedEnergySpinner.getValue(), birthCostSpinner.getValue(), minMutationAmountSpinner.getValue(),
-                        maxMutationAmountSpinner.getValue(), animalVariant);
+                        maxMutationAmountSpinner.getValue(), animalVariant, energyPlantSpinner.getValue());
             }
             case 1 -> {
                 currentMapId++;
                 map = new CorpseGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
                         startingPlantAmountSpinner.getValue(), decayTimeSpinner.getValue(),
                         satisfiedEnergySpinner.getValue(), birthCostSpinner.getValue(), minMutationAmountSpinner.getValue(),
-                        maxMutationAmountSpinner.getValue(), animalVariant);
-            }
-            default -> {
-                if(mapVariantComboBox.getValue().startsWith("2")){
-                    currentMapId++;
-                    map = new CorpseGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
-                            startingPlantAmountSpinner.getValue(), decayTimeSpinner.getValue(),
-                            satisfiedEnergySpinner.getValue(), birthCostSpinner.getValue(), minMutationAmountSpinner.getValue(),
-                            maxMutationAmountSpinner.getValue(), animalVariant);
-                }
-                else{
-                    currentMapId++;
-                    map = new EquatorGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
-                            startingPlantAmountSpinner.getValue(),
-                            satisfiedEnergySpinner.getValue(), birthCostSpinner.getValue(), minMutationAmountSpinner.getValue(),
-                            maxMutationAmountSpinner.getValue(), animalVariant);
-                }
+                        maxMutationAmountSpinner.getValue(), animalVariant, energyPlantSpinner.getValue());
             }
         }
         return map;

@@ -43,6 +43,7 @@ public class Animal implements WorldElement {
         bornTime=time;
         currentGenomeIndex=0;
         this.genome = genome;
+        facing=MapDirection.NORTH;
     }
 
     public Animal(Vector2d given_position, Animal parent1, Animal parent2,

@@ -117,14 +117,14 @@ public class SettingsPresenter {
                 map = new EquatorGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
                         startingPlantAmountSpinner.getValue(),
                         satisfiedEnergySpinner.getValue(), birthCostSpinner.getValue(), minMutationAmountSpinner.getValue(),
-                        maxMutationAmountSpinner.getValue(), animalVariant);
+                        maxMutationAmountSpinner.getValue(), animalVariant,plantEnergySpinner.getValue());
             }
             case 1 -> {
                 currentMapId++;
                 map = new CorpseGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
                         startingPlantAmountSpinner.getValue(), decayTimeSpinner.getValue(),
                         satisfiedEnergySpinner.getValue(), birthCostSpinner.getValue(), minMutationAmountSpinner.getValue(),
-                        maxMutationAmountSpinner.getValue(), animalVariant);
+                        maxMutationAmountSpinner.getValue(), animalVariant,plantEnergySpinner.getValue());
             }
             default -> {
                 if(mapVariantComboBox.getValue().startsWith("2")){
@@ -132,14 +132,14 @@ public class SettingsPresenter {
                     map = new CorpseGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
                             startingPlantAmountSpinner.getValue(), decayTimeSpinner.getValue(),
                             satisfiedEnergySpinner.getValue(), birthCostSpinner.getValue(), minMutationAmountSpinner.getValue(),
-                            maxMutationAmountSpinner.getValue(), animalVariant);
+                            maxMutationAmountSpinner.getValue(), animalVariant,plantEnergySpinner.getValue());
                 }
                 else{
                     currentMapId++;
                     map = new EquatorGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
                             startingPlantAmountSpinner.getValue(),
                             satisfiedEnergySpinner.getValue(), birthCostSpinner.getValue(), minMutationAmountSpinner.getValue(),
-                            maxMutationAmountSpinner.getValue(), animalVariant);
+                            maxMutationAmountSpinner.getValue(), animalVariant,plantEnergySpinner.getValue());
                 }
             }
         }

@@ -14,14 +14,15 @@ public abstract class AbstractGlobeMap implements Globe {
     protected final Map<Vector2d, List<Animal>> animals = new HashMap<>();
     protected final Map<Vector2d, Grass> grasses = new HashMap<>();
     protected final List<GlobeChangeListener> listeners = new ArrayList<>();
-    private int time;
-    private final int id;
-    private final boolean nextGenomeVariant;
-    private final int breadingEnergy;
-    private final int minimalMutations;
-    private final int maximalMutations;
-    private final int foodEnergy;
-    private final int parentBreadingEnergyLoose;
+    protected final List<Animal> deadAnimals = new ArrayList<>();
+    protected int time;
+    protected final int id;
+    protected final boolean nextGenomeVariant;
+    protected final int breadingEnergy;
+    protected final int minimalMutations;
+    protected final int maximalMutations;
+    protected final int foodEnergy;
+    protected final int parentBreadingEnergyLoose;
     protected final Boundary bounds;
     protected Random randomizer = new Random();
 
@@ -104,11 +105,19 @@ public abstract class AbstractGlobeMap implements Globe {
 
         public abstract void grow ( int amount);
 
-        public void removeDeadAnimals () {
-            for (List<Animal> animalList : animals.values()) {
-                animalList.removeIf(animal -> animal.getEnergy() <= 0);
+    public void removeDeadAnimals() {
+        for (List<Animal> animalList : animals.values()) {
+            Iterator<Animal> iterator = animalList.iterator();
+            while (iterator.hasNext()) {
+                Animal animal = iterator.next();
+                if (animal.getEnergy() <= 0) {
+                    deadAnimals.add(animal);
+                    deadAnimals.get(deadAnimals.size() - 1).setDeathTime(time);
+                    iterator.remove();
+                }
             }
         }
+    }
 
 
         public boolean isOccupied (Vector2d position){

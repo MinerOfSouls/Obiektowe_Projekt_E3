@@ -130,4 +130,18 @@ public abstract class AbstractGlobeMap implements Globe {
         }
     }
 
+    public Collection<Vector2d> getGrassLocations(){
+        return grasses.keySet();
+    }
+
+    public Collection<Animal> getTopAnimals(){
+        List<Animal> topAnimals = new ArrayList<>();
+        for(List<Animal> animalList : animals.values()){
+            topAnimals.add(
+                    animalList.stream().max(new AnimalComparator()).get()
+            );
+        }
+        return topAnimals;
+    }
+
 }

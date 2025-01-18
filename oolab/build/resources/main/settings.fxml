@@ -157,5 +157,5 @@
     </ComboBox>
     <Label text="Inne:" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
     <Label text="Zapis statystyk do pliku" GridPane.columnIndex="0" GridPane.rowIndex="11"/>
-    <CheckBox GridPane.columnIndex="1" GridPane.rowIndex="11"/>
+    <CheckBox fx:id="statisticsSaveCheckBox" GridPane.columnIndex="1" GridPane.rowIndex="11"/>
 </GridPane>

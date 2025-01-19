@@ -20,8 +20,7 @@ public class Animal implements WorldElement {
     private int energy ;
     private int bornTime;
     private int plantsEaten ;
-    private int height;
-    private int width;
+
     private int childs;
     private int deadTime;
 
@@ -35,11 +34,9 @@ public class Animal implements WorldElement {
 
     public Animal(Vector2d given_position, List<Integer> genome,
                   int given_energy,int time, int minimalMutations, int maximalMutations,
-                  boolean nextGenomeVariant,int height, int width) {
+                  boolean nextGenomeVariant) {
         childs=0;
         plantsEaten=0;
-        this.height=height;
-        this.width=width;
         position = given_position;
         this.nextGenomeVariant=nextGenomeVariant;
         this.minimalMutations = minimalMutations;
@@ -53,10 +50,8 @@ public class Animal implements WorldElement {
 
     public Animal(Vector2d given_position, Animal parent1, Animal parent2,
                   int given_energy,int time, int minimalMutations, int maximalMutations,
-                  boolean nextGenomeVariant,int height, int width) {
+                  boolean nextGenomeVariant) {
         position = given_position;
-        this.height=height;
-        this.width=width;
         this.nextGenomeVariant=nextGenomeVariant;
         this.minimalMutations = minimalMutations;
         this.maximalMutations = maximalMutations;
@@ -135,6 +130,8 @@ public class Animal implements WorldElement {
         }
 
         var next_position = position.add(facing.toUnitVector());
+        int width=movementMap.getCurrentBounds().upperRight().getX();
+        int height=movementMap.getCurrentBounds().upperRight().getY();
         if(next_position.getX() == width){
             position = new Vector2d(0, position.getY());
         }

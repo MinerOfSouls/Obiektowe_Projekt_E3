@@ -17,32 +17,46 @@ public class Simulation implements Runnable {
         growthFactor = givenGrowthFactor;
     }
 
-    public synchronized void run(){
-        int current=0;
+    public synchronized void run() {
+        int current = 0;
         try {
-            while(true) {
-                if(runSetting){
+            while (true) {
+                if (runSetting) {
+
                     animals = map.getAnimals();
-                    map.decreaseEnergy(animals.get(current));
-                    map.move(animals.get(current));
-                    map.eatIfPossible(animals.get(current));
-                    current = current+1;
-                    if(current== animals.size()-1){
+
+
+                    if (animals.isEmpty()) {
+                        continue;
+                    }
+
+
+                    if (current < animals.size()) {
+                        map.decreaseEnergy(animals.get(current));
+                        map.move(animals.get(current));
+                        map.eatIfPossible(animals.get(current));
+                    }
+
+
+                    current = current + 1;
+
+
+                    if (current == animals.size()) {
                         map.increaseTime();
                         map.animalBreeding();
                         map.grow(growthFactor);
                         map.removeDeadAnimals();
                         animals = map.getAnimals();
                         current = 0;
-
                     }
+
                     Thread.sleep(500);
                 } else {
                     wait();
                 }
             }
-        } catch (InterruptedException e){
-            //ignored
+        } catch (InterruptedException e) {
+
         }
     }
 

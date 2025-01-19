@@ -45,7 +45,12 @@ public class Animal implements WorldElement {
         bornTime=time;
         currentGenomeIndex=0;
         this.genome = genome;
-        facing=MapDirection.NORTH;
+        MapDirection randomDirection = MapDirection.NORTH;
+        int randomNum= new Random().nextInt(genome.size());
+        for (int i = 0; i < randomNum; i++) {
+            randomDirection = randomDirection.next();
+        }
+        facing=randomDirection;
     }
 
     public Animal(Vector2d given_position, Animal parent1, Animal parent2,
@@ -63,6 +68,7 @@ public class Animal implements WorldElement {
         for (int i = 0; i < randomNum; i++) {
             randomDirection = randomDirection.next();
         }
+        facing=randomDirection;
         currentGenomeIndex=randomNum;
         bornTime=time;
 

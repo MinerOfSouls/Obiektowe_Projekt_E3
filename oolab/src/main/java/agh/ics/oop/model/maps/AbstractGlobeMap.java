@@ -129,8 +129,13 @@ public abstract class AbstractGlobeMap implements Globe {
         public abstract void grow ( int amount);
 
     public void removeDeadAnimals() {
+
+        List<Vector2d> positionsToRemove = new ArrayList<>();
+
         for (List<Animal> animalList : animals.values()) {
+
             Iterator<Animal> iterator = animalList.iterator();
+
             while (iterator.hasNext()) {
                 Animal animal = iterator.next();
                 if (animal.getEnergy() <= 0) {
@@ -138,8 +143,18 @@ public abstract class AbstractGlobeMap implements Globe {
                     deadAnimals.add(animal);
                     deadAnimals.get(deadAnimals.size() - 1).setDeathTime(time);
                     iterator.remove();
+
+
+                    if (animalList.isEmpty()) {
+                        positionsToRemove.add(animal.getPosition());
+                    }
                 }
             }
+        }
+
+
+        for (Vector2d position : positionsToRemove) {
+            animals.remove(position);
         }
     }
 

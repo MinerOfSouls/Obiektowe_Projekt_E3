@@ -9,8 +9,6 @@ public class Simulation implements Runnable {
     private AbstractGlobeMap map;
     private boolean runSetting = true;
 
-    private boolean simulationOpen = true;
-
     int growthFactor;
 
     public Simulation(AbstractGlobeMap globeMap, int givenGrowthFactor){
@@ -22,8 +20,7 @@ public class Simulation implements Runnable {
     public synchronized void run(){
         int current=0;
         try {
-            while(simulationOpen) {
-                //TODO:ADD STOP LOGIC
+            while(true) {
                 if(runSetting){
                     map.move(animals.get(current));
                     map.eatIfPossible(animals.get(current));
@@ -61,9 +58,5 @@ public class Simulation implements Runnable {
 
     public boolean getState(){
         return runSetting;
-    }
-
-    public void end(){
-
     }
 }

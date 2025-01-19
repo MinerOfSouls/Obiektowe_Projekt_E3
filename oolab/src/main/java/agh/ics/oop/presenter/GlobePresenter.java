@@ -11,13 +11,16 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.Node;
 
@@ -120,10 +123,12 @@ public class GlobePresenter implements GlobeChangeListener {
             animalButton.setOnAction(action);
             globe.add(animalButton, animal.getPosition().getX(), lowerZero - animal.getPosition().getY());
 
-            SimpleDoubleProperty energyPercentage = new SimpleDoubleProperty(Math.min(1.0,
-                    (double) animal.getEnergy() /simulation.getMap().getMinBreedingEnergy()));
-
-            Rectangle energyBar = new Rectangle((double) rowHeight /10, collumnWidth);
+            Rectangle energyBar = new Rectangle(
+                    collumnWidth*(Math.min(1.0, (double) animal.getEnergy() / map.getMinBreedingEnergy())), rowHeight*0.1);
+            GridPane.setHalignment(energyBar, HPos.LEFT);
+            GridPane.setValignment(energyBar, VPos.BOTTOM);
+            energyBar.setFill(Color.RED);
+            globe.add(energyBar, animal.getPosition().getX(), lowerZero - animal.getPosition().getY());
         }
     }
 

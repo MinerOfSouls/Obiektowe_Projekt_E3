@@ -75,4 +75,15 @@ public class CorpseGlobe extends AbstractGlobeMap {
     public void removeDeadAnimals() {
 
     }
+
+    @Override
+    public List<Vector2d> getPreferredSpaces() {
+        List<Vector2d> corpseNeighbours = new ArrayList<>();
+        for (Vector2d corpse : corpses) {
+            for (Vector2d neighbour : neighbours) {
+                corpseNeighbours.add(corpse.add(neighbour));
+            }
+        }
+        return corpseNeighbours;
+    }
 }

@@ -1,14 +1,13 @@
 package agh.ics.oop;
 import agh.ics.oop.model.elements.Animal;
 import agh.ics.oop.model.maps.AbstractGlobeMap;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 
 import java.util.List;
 
 public class Simulation implements Runnable {
     private List<Animal> animals;
     private AbstractGlobeMap map;
+    private boolean runSetting = true;
 
     int growthFactor;
 
@@ -18,12 +17,11 @@ public class Simulation implements Runnable {
         growthFactor = givenGrowthFactor;
     }
 
-    public void run(){
+    public synchronized void run(){
         int current=0;
         try {
             while(true) {
-                //TODO:ADD STOP LOGIC
-                if(true){
+                if(runSetting){
                     map.move(animals.get(current));
                     map.eatIfPossible(animals.get(current));
                     current = current+1;
@@ -35,15 +33,30 @@ public class Simulation implements Runnable {
                         map.removeDeadAnimals();
                         current = 0;
                     }
+                    Thread.sleep(500);
+                } else {
+                    wait();
                 }
-                Thread.sleep(500);
             }
         } catch (InterruptedException e){
             //ignored
         }
     }
 
+    public synchronized void start(){
+        runSetting = true;
+        notify();
+    }
+
+    public void stop(){
+        runSetting = false;
+    }
+
     public AbstractGlobeMap getMap() {
         return map;
+    }
+
+    public boolean getState(){
+        return runSetting;
     }
 }

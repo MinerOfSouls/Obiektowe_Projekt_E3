@@ -4,6 +4,8 @@ import agh.ics.oop.model.Vector2d;
 import agh.ics.oop.model.elements.Grass;
 import agh.ics.oop.model.util.RandomPositionGenerator;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,10 +21,10 @@ public class EquatorGlobe extends AbstractGlobeMap {
         super(givenId, givenWidth, givenHeight, givenBreadingEnergy,
                 givenParentBreadingEnergyLoose, givenMinimalMutations, givenMaximalMutations, givenNextGenomeVariant, givenFoodEnergy);
 
-        plentifulAreaBounds = new Boundary(new Vector2d(0, (bounds.lowerLeft().getY()*2)/5),
+        plentifulAreaBounds = new Boundary(new Vector2d(0, (bounds.upperRight().getY()*2)/5),
                 new Vector2d(bounds.upperRight().getX(), (bounds.upperRight().getY()*3)/5));
         steppeBounds = List.of(new Boundary(new Vector2d(0,0),
-                        new Vector2d(bounds.upperRight().getX(),((bounds.lowerLeft().getY()*2)/5)-1)),
+                        new Vector2d(bounds.upperRight().getX(),((bounds.upperRight().getY()*2)/5)-1)),
                         new Boundary(new Vector2d(0, (((bounds.upperRight().getY()*3)/5)+1)), bounds.upperRight()));
         grow(startingPlantAmount);
     }
@@ -57,5 +59,16 @@ public class EquatorGlobe extends AbstractGlobeMap {
     @Override
     public void removeDeadAnimals() {
 
+    }
+
+    @Override
+    public List<Vector2d> getPreferredSpaces() {
+        List<Vector2d> preferredSpaces = new ArrayList<>();
+        for (int i = plentifulAreaBounds.lowerLeft().getX(); i < plentifulAreaBounds.upperRight().getX()+1; i++) {
+            for (int j = plentifulAreaBounds.lowerLeft().getY(); j < plentifulAreaBounds.upperRight().getY()+1; j++) {
+                preferredSpaces.add(new Vector2d(i, j));
+            }
+        }
+        return preferredSpaces;
     }
 }

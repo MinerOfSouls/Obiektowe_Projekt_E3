@@ -35,9 +35,11 @@ public class Animal implements WorldElement {
 
     public Animal(Vector2d given_position, List<Integer> genome,
                   int given_energy,int time, int minimalMutations, int maximalMutations,
-                  boolean nextGenomeVariant) {
+                  boolean nextGenomeVariant,int height, int width) {
         childs=0;
         plantsEaten=0;
+        this.height=height;
+        this.width=width;
         position = given_position;
         this.nextGenomeVariant=nextGenomeVariant;
         this.minimalMutations = minimalMutations;

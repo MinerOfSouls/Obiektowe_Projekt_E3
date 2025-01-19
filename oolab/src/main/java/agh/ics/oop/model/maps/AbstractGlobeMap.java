@@ -87,6 +87,7 @@ public abstract class AbstractGlobeMap implements Globe {
                 animal.setEnergy(animal.getEnergy() + foodEnergy);
                 grasses.remove(animal.getPosition());
                 animal.increasePlantsEaten();
+                System.out.println("Plant eaten at " + animal.getPosition());
             }
         }
         public void decreaseEnergy(Animal animal){
@@ -133,6 +134,7 @@ public abstract class AbstractGlobeMap implements Globe {
             while (iterator.hasNext()) {
                 Animal animal = iterator.next();
                 if (animal.getEnergy() <= 0) {
+                    System.out.println("Animal died at " + animal.getPosition());
                     deadAnimals.add(animal);
                     deadAnimals.get(deadAnimals.size() - 1).setDeathTime(time);
                     iterator.remove();

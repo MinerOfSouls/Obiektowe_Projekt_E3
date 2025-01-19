@@ -132,13 +132,36 @@ public class Animal implements WorldElement {
         var next_position = position.add(facing.toUnitVector());
         int width=movementMap.getCurrentBounds().upperRight().getX();
         int height=movementMap.getCurrentBounds().upperRight().getY();
-        if(next_position.getX() == width){
-            position = new Vector2d(0, next_position.getY());
+        if(next_position.getX() >= width){
+            System.out.println("jestem" + position);
+            if(next_position.getY() >= height){
+                position = new Vector2d(0, height-1);
+            }
+            else if(next_position.getY() <= -1){
+                position = new Vector2d(0, 0);
+            }
+            else{
+                position = new Vector2d(0, next_position.getY());
+            }
+
+            System.out.println("teplem" + position);
+
         }
-        else if(next_position.getX() == -1){
-            position=new Vector2d(width-1, next_position.getY());
+        else if(next_position.getX() <= -1){
+            System.out.println("jestem" + position);
+            if(next_position.getY() >= height){
+                position = new Vector2d(width-1, height-1);
+            }
+            else if(next_position.getY() <= -1){
+                position = new Vector2d(width-1, 0);
+            }
+            else{
+                position = new Vector2d(width-1, next_position.getY());
+            }
+
+            System.out.println("teplem" + position);
         }
-        else if(next_position.getY() == height || next_position.getY() == -1){
+        else if(next_position.getY() >= height || next_position.getY() <= -1){
 
         }
         else {

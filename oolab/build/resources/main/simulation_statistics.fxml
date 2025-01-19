@@ -27,6 +27,6 @@
     <Label fx:id="averageChildAmountLabel"/>
     <Separator/>
     <VBox fx:id="animalTrackingVBox"/>
-    <Button fx:id="stopTrackingButton" onAction="#stopTracking"/>
+    <Button fx:id="stopTrackingButton" text="Przestań śledzić" onAction="#stopTracking"/>
 
 </VBox>

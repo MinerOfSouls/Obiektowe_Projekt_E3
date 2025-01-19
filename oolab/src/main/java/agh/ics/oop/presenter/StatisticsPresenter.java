@@ -33,6 +33,9 @@ public class StatisticsPresenter implements GlobeChangeListener {
     public void initialize(){
         stopTrackingButton.setVisible(false);
         stopTrackingButton.setManaged(false);
+        animalTrackingVBox.getChildren().add(animalStats);
+        animalStats.setManaged(false);
+        animalStats.setVisible(false);
     }
 
     private void updateStatistics(AbstractGlobeMap map){
@@ -46,8 +49,8 @@ public class StatisticsPresenter implements GlobeChangeListener {
 
     public void trackAnimal(Animal animal){
         animalStatsController.setTrackedAnimal(animal);
-        animalTrackingVBox.getChildren().removeFirst();
-        animalTrackingVBox.getChildren().add(animalStats);
+        animalStats.setManaged(true);
+        animalStats.setVisible(true);
         stopTrackingButton.setVisible(true);
         stopTrackingButton.setManaged(true);
     }
@@ -55,7 +58,8 @@ public class StatisticsPresenter implements GlobeChangeListener {
 
     public void stopTracking(ActionEvent actionEvent) {
         animalStatsController.stopTracking();
-        animalTrackingVBox.getChildren().removeFirst();
+        animalStats.setManaged(false);
+        animalStats.setVisible(false);
         stopTrackingButton.setVisible(false);
         stopTrackingButton.setManaged(false);
     }

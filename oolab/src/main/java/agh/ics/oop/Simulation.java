@@ -44,7 +44,7 @@ public class Simulation implements Runnable {
                         current = 0;
                         notifyListeners();
                     }
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                 } else {
                     wait();
                 }

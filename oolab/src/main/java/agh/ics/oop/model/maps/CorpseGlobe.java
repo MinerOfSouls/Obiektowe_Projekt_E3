@@ -29,8 +29,10 @@ public class CorpseGlobe extends AbstractGlobeMap {
     public void grow(int amount) {
         List<Vector2d> corpseNeighbours = getPreferredSpaces();
         Collections.shuffle(corpseNeighbours);
-        Collection<Vector2d> excluded = grasses.keySet();
+        Collection<Vector2d> excluded = new HashSet<>(grasses.keySet());
         excluded.addAll(corpseNeighbours);
+
+
         RandomPositionGenerator steppeGenerator = new RandomPositionGenerator(bounds, amount, excluded, null);
         Iterator corpseIterator = corpseNeighbours.iterator();
         Iterator steppeIterator = steppeGenerator.iterator();

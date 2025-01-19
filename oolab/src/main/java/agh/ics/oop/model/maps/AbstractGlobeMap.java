@@ -257,28 +257,51 @@ public abstract class AbstractGlobeMap implements Globe {
         return time;
     }
 
-    public int getAverageEnergy(){
-        return animals.values().stream()
+    public int getAverageEnergy() {
+        long totalAnimals = animals.values().stream()
                 .flatMap(Collection::stream)
-                .mapToInt(Animal::getEnergy).sum()/animals.values().stream()
-                .flatMap(Collection::stream).toList().size();
+                .count();
+
+        if (totalAnimals == 0) {
+            return 0;
+        }
+
+        int totalEnergy = animals.values().stream()
+                .flatMap(Collection::stream)
+                .mapToInt(Animal::getEnergy)
+                .sum();
+
+        return totalEnergy / (int) totalAnimals;
     }
 
-    public int getAverageLifespan(){
-        if(deadAnimals.isEmpty()){
+    public int getAverageLifespan() {
+        if (deadAnimals.isEmpty()) {
             return 0;
         }
         return deadAnimals.stream()
-                .mapToInt(animal -> {return animal.getDeathTime()-animal.getDeathTime();})
-                .sum()/deadAnimals.size();
+                .mapToInt(animal -> animal.getDeathTime() - animal.getBornTime())
+                .sum() / deadAnimals.size();
     }
 
-    public int getAverageChildrenAmount(){
-        return animals.values().stream()
+    public int getAverageChildrenAmount() {
+        long totalAnimals = animals.values().stream()
+                .flatMap(Collection::stream)
+                .count();
+
+        if (totalAnimals == 0) {
+            return 0;
+        }
+
+        int totalChildren = animals.values().stream()
                 .flatMap(Collection::stream)
                 .mapToInt(Animal::getNumberOfChildrens)
-                .sum()/animals.values().stream()
-                .flatMap(Collection::stream).toList().size();
+                .sum();
+
+        return totalChildren / (int) totalAnimals;
+    }
+    public int getLivingAndDeadAnimalsAmount(){
+        return animals.values().stream()
+                .flatMap(Collection::stream).toList().size() + deadAnimals.size();
     }
 
     public List<List<Integer>> getTop5Genomes(){

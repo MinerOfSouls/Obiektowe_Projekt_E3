@@ -81,6 +81,7 @@ public class Animal implements WorldElement {
     public int getDeathTime(){
         return deadTime;
     }
+
     public void increasePlantsEaten(){
         plantsEaten++;
     }

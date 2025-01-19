@@ -11,7 +11,7 @@ public class CorpseGlobe extends AbstractGlobeMap {
 
     private List<Vector2d> corpses = new ArrayList<>();
     private List<Vector2d> neighbours = List.of(new Vector2d(1, 0), new Vector2d(-1, 0),
-            new Vector2d(0, 1), new Vector2d(0, -1));
+            new Vector2d(0, 1), new Vector2d(0, -1), new Vector2d(0,0));
     private final int decayTime;
 
     public CorpseGlobe(int givenId, int givenWidth, int givenHeight, int startingPlantAmount,

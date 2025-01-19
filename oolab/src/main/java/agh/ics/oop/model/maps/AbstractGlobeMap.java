@@ -265,6 +265,9 @@ public abstract class AbstractGlobeMap implements Globe {
     }
 
     public int getAverageLifespan(){
+        if(deadAnimals.isEmpty()){
+            return 0;
+        }
         return deadAnimals.stream()
                 .mapToInt(animal -> {return animal.getDeathTime()-animal.getDeathTime();})
                 .sum()/deadAnimals.size();
@@ -276,6 +279,18 @@ public abstract class AbstractGlobeMap implements Globe {
                 .mapToInt(Animal::getNumberOfChildrens)
                 .sum()/animals.values().stream()
                 .flatMap(Collection::stream).toList().size();
+    }
+
+    public List<List<Integer>> getTop5Genomes(){
+        return animals.values().stream()
+                .flatMap(Collection::stream)
+                .map(Animal::getGenome)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .limit(5)
+                .toList();
     }
 
 }

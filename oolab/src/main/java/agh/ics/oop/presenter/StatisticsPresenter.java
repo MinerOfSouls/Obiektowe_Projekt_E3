@@ -13,6 +13,7 @@ import javafx.scene.shape.Box;
 
 import java.awt.*;
 import java.beans.EventHandler;
+import java.util.List;
 
 public class StatisticsPresenter implements GlobeChangeListener {
 
@@ -39,7 +40,16 @@ public class StatisticsPresenter implements GlobeChangeListener {
     }
 
     private void updateStatistics(AbstractGlobeMap map){
-
+        animalAmountLabel.setText(String.format("Ilość zwieżąt: %d", map.getAnimals().size()));
+        grassAmountLabel.setText(String.format("Ilość trawy: %d", map.getGrassLocations().size()));
+        freeSpaceLabel.setText(String.format("Ilość wolnego moejsca: %d", (map.getCurrentBounds().upperRight().getY()+1)*(map.getCurrentBounds().upperRight().getY()+1) - map.getGrassLocations().size()));
+        popularGenotypesVbox.getChildren().clear();
+        for (List<Integer> genome: map.getTop5Genomes()){
+            popularGenotypesVbox.getChildren().add(new Label(genome.toString()));
+        }
+        averageEnergyLevel.setText(String.format("Średnia energia: %d", map.getAverageEnergy()));
+        averageChildAmountLabel.setText(String.format("Średnia liczba dzieci: %d", map.getAverageChildrenAmount()));
+        averageLifeSpanLabel.setText(String.format("Średnia długość życia: %d", map.getAverageLifespan()));
     }
 
     @Override

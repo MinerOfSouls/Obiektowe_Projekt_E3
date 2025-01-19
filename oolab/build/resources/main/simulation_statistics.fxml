@@ -21,6 +21,7 @@
     <Label fx:id="animalAmountLabel"/>
     <Label fx:id="grassAmountLabel"/>
     <Label fx:id="freeSpaceLabel"/>
+    <Label text="Popularne genotypy"/>
     <VBox fx:id="popularGenotypesVbox"/>
     <Label fx:id="averageEnergyLevel"/>
     <Label fx:id="averageLifeSpanLabel"/>

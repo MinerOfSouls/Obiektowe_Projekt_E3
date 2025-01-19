@@ -8,7 +8,6 @@ import agh.ics.oop.model.elements.Animal;
 import agh.ics.oop.model.maps.AbstractGlobeMap;
 import agh.ics.oop.model.maps.Boundary;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -20,7 +19,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.Node;
 
@@ -85,10 +83,10 @@ public class GlobePresenter implements GlobeChangeListener {
         }
     }
 
-    private void drawGrass(AbstractGlobeMap map){
+    private void drawGrass(AbstractGlobeMap map, Collection<Vector2d> locations){
         Boundary bounds = map.getCurrentBounds();
         int lowerZero = bounds.upperRight().getX();
-        for(Vector2d location : map.getGrassLocations()){
+        for(Vector2d location : locations){
             ImageView grass = new ImageView(SimulationPresenter.grassTexture);
             grass.setFitHeight(rowHeight);
             grass.setFitWidth(collumnWidth);
@@ -96,11 +94,11 @@ public class GlobePresenter implements GlobeChangeListener {
         }
     }
 
-    private void drawAnimals(AbstractGlobeMap map){
+    private void drawAnimals(AbstractGlobeMap map, List<Animal> topAnimals){
         animalButtons.clear();
         Boundary bounds = map.getCurrentBounds();
         int lowerZero = bounds.upperRight().getX();
-        for(Animal animal : map.getTopAnimals()){
+        for(Animal animal : topAnimals){
             ImageView animalTexture = new ImageView(animal.getTexture());
             animalTexture.setFitWidth(collumnWidth);
             animalTexture.setFitHeight(rowHeight);
@@ -132,17 +130,17 @@ public class GlobePresenter implements GlobeChangeListener {
         }
     }
 
-    private void drawMap(AbstractGlobeMap map){
-        clearGrid();
-        drawGrid(map.getCurrentBounds());
-        drawGround(map);
-        drawGrass(map);
-        drawAnimals(map);
-    }
-
     @Override
     public void mapChanged(AbstractGlobeMap map, String message) {
-        Platform.runLater(() -> {drawMap(map);});
+        List<Vector2d> grassCopy = new ArrayList<>(map.getGrassLocations());
+        List<Animal> animalCopy = new ArrayList<>(map.getTopAnimals());
+        Platform.runLater(() -> {
+            clearGrid();
+            drawGrid(map.getCurrentBounds());
+            drawGround(map);
+            drawGrass(map, grassCopy);
+            drawAnimals(map, animalCopy);
+        });
     }
 
     private void clearGrid() {

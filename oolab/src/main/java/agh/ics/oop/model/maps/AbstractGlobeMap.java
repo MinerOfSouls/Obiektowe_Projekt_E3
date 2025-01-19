@@ -60,7 +60,7 @@ public abstract class AbstractGlobeMap implements Globe {
                             animalList.get(1).getEnergy() >= breadingEnergy) {
                         Vector2d childPosition = animalList.get(0).getPosition();
                         Animal child = new Animal(childPosition, animalList.get(0), animalList.get(1), 2 * parentBreadingEnergyLoose, time,
-                                minimalMutations, maximalMutations, nextGenomeVariant);
+                                minimalMutations, maximalMutations, nextGenomeVariant, bounds.upperRight().getY(), bounds.upperRight().getX());
                         animalList.get(0).setEnergy((int) (animalList.get(0).getEnergy() - parentBreadingEnergyLoose));
                         animalList.get(1).setEnergy((int) (animalList.get(1).getEnergy() - parentBreadingEnergyLoose));
                         animalList.get(0).increaseChilds();

@@ -20,6 +20,8 @@ public class Animal implements WorldElement {
     private int energy ;
     private int bornTime;
     private int plantsEaten ;
+    private int height;
+    private int width;
     private int childs;
     private int deadTime;
 
@@ -49,8 +51,10 @@ public class Animal implements WorldElement {
 
     public Animal(Vector2d given_position, Animal parent1, Animal parent2,
                   int given_energy,int time, int minimalMutations, int maximalMutations,
-                  boolean nextGenomeVariant) {
+                  boolean nextGenomeVariant,int height, int width) {
         position = given_position;
+        this.height=height;
+        this.width=width;
         this.nextGenomeVariant=nextGenomeVariant;
         this.minimalMutations = minimalMutations;
         this.maximalMutations = maximalMutations;
@@ -65,6 +69,9 @@ public class Animal implements WorldElement {
         currentGenomeIndex=randomNum;
         bornTime=time;
 
+    }
+    public void setPosition(Vector2d position){
+        this.position=position;
     }
     public void setDeathTime(int time){
         deadTime=time;
@@ -126,10 +133,20 @@ public class Animal implements WorldElement {
         }
 
         var next_position = position.add(facing.toUnitVector());
-        if (movementMap.canMoveTo(next_position)) {
-            position = next_position;
+        if(next_position.getX() == width){
+            position = new Vector2d(0, position.getY());
         }
-        int random = new Random().nextInt(100);
+        else if(next_position.getX() == -1){
+            position=new Vector2d(width-1, position.getY());
+        }
+        else if(next_position.getY() == height || next_position.getY() == -1){
+
+        }
+        else {
+            if (movementMap.canMoveTo(next_position)) {
+                position = next_position;
+            }
+            int random = new Random().nextInt(100);
 
             if (random <= 80 && nextGenomeVariant) {
                 currentGenomeIndex = (currentGenomeIndex + 1) % genome.size();
@@ -137,6 +154,8 @@ public class Animal implements WorldElement {
                 currentGenomeIndex = new Random().nextInt(genome.size());
             }
         }
+        }
+
 
     public List<Integer> getGenome() {
         return genome;

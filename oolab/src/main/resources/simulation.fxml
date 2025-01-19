@@ -12,7 +12,7 @@
 <?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="agh.ics.oop.presenter.SimulationPresenter"
+            fx:controller="agh.ics.oop.presenter.MainWindowPresenter"
             minHeight="550.0" minWidth="850.0"
             fx:id="content">
     <fx:define><fx:include source="settings.fxml" fx:id="settings"/></fx:define>

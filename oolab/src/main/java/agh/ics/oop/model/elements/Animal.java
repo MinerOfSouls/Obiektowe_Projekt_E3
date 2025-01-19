@@ -1,11 +1,10 @@
 package agh.ics.oop.model.elements;
 
 import agh.ics.oop.model.*;
-import agh.ics.oop.presenter.SimulationPresenter;
+import agh.ics.oop.presenter.MainWindowPresenter;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 public class Animal implements WorldElement {
@@ -123,7 +122,7 @@ public class Animal implements WorldElement {
 
     @Override
     public Image getTexture() {
-        return SimulationPresenter.animalTextures.get(facing);
+        return MainWindowPresenter.animalTextures.get(facing);
     }
 
     public MapDirection getFacing() {

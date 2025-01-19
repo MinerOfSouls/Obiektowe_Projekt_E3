@@ -75,7 +75,7 @@ public class GlobePresenter implements GlobeChangeListener {
         Boundary bounds = map.getCurrentBounds();
         for (int i = 0; i < bounds.upperRight().getX()+1; i++) {
             for (int j = 0; j < bounds.upperRight().getY()+1; j++) {
-                ImageView ground = new ImageView(SimulationPresenter.groundTexture);
+                ImageView ground = new ImageView(MainWindowPresenter.groundTexture);
                 ground.setFitWidth(collumnWidth);
                 ground.setFitHeight(rowHeight);
                 globe.add(ground, i, j);
@@ -87,7 +87,7 @@ public class GlobePresenter implements GlobeChangeListener {
         Boundary bounds = map.getCurrentBounds();
         int lowerZero = bounds.upperRight().getX();
         for(Vector2d location : locations){
-            ImageView grass = new ImageView(SimulationPresenter.grassTexture);
+            ImageView grass = new ImageView(MainWindowPresenter.grassTexture);
             grass.setFitHeight(rowHeight);
             grass.setFitWidth(collumnWidth);
             globe.add(grass, location.getX(), lowerZero - location.getY());

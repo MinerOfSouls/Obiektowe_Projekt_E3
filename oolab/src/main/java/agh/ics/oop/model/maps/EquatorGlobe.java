@@ -17,9 +17,9 @@ public class EquatorGlobe extends AbstractGlobeMap {
     public EquatorGlobe(int givenId, int givenWidth, int givenHeight, int startingPlantAmount,
                         int givenBreadingEnergy,int givenParentBreadingEnergyLoose,
                         int givenMinimalMutations, int givenMaximalMutations,
-                        boolean givenNextGenomeVariant,int givenFoodEnergy) {
+                        boolean givenNextGenomeVariant,int givenFoodEnergy,int givenEnergyLoose) {
         super(givenId, givenWidth, givenHeight, givenBreadingEnergy,
-                givenParentBreadingEnergyLoose, givenMinimalMutations, givenMaximalMutations, givenNextGenomeVariant, givenFoodEnergy);
+                givenParentBreadingEnergyLoose, givenMinimalMutations, givenMaximalMutations, givenNextGenomeVariant, givenFoodEnergy,givenEnergyLoose);
 
         plentifulAreaBounds = new Boundary(new Vector2d(0, (bounds.upperRight().getY()*2)/5),
                 new Vector2d(bounds.upperRight().getX(), (bounds.upperRight().getY()*3)/5));

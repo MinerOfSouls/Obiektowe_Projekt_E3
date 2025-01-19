@@ -22,6 +22,7 @@ public class Simulation implements Runnable {
         try {
             while(true) {
                 if(runSetting){
+                    map.decreaseEnergy(animals.get(current));
                     map.move(animals.get(current));
                     map.eatIfPossible(animals.get(current));
                     current = current+1;
@@ -32,6 +33,7 @@ public class Simulation implements Runnable {
                         map.grow(growthFactor);
                         map.removeDeadAnimals();
                         current = 0;
+
                     }
                     Thread.sleep(500);
                 } else {

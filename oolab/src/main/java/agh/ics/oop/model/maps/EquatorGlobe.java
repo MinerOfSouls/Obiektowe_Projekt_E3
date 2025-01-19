@@ -55,9 +55,6 @@ public class EquatorGlobe extends AbstractGlobeMap {
         }
     }
 
-    //TODO: implement when animals added
-
-
     @Override
     public List<Vector2d> getPreferredSpaces() {
         List<Vector2d> preferredSpaces = new ArrayList<>();

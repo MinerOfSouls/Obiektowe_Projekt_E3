@@ -1,6 +1,7 @@
 package agh.ics.oop.model.maps;
 
 import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.elements.Animal;
 import agh.ics.oop.model.elements.Grass;
 import agh.ics.oop.model.util.RandomPositionGenerator;
 
@@ -9,7 +10,6 @@ import java.util.*;
 public class CorpseGlobe extends AbstractGlobeMap {
 
     private List<Vector2d> corpses = new ArrayList<>();
-    private List<Integer> decayTimers = new ArrayList<>();
     private List<Vector2d> neighbours = List.of(new Vector2d(1, 0), new Vector2d(-1, 0),
             new Vector2d(0, 1), new Vector2d(0, -1));
     private final int decayTime;
@@ -25,24 +25,9 @@ public class CorpseGlobe extends AbstractGlobeMap {
         grow(startingPlantAmount);
     }
 
-    private void removeDecayedCorpses(){
-        for (int i = 0; i < corpses.size(); i++) {
-            if(decayTimers.get(i) == 0){
-                corpses.remove(i);
-                decayTimers.remove(i);
-                i--;
-            }
-        }
-    }
-
     @Override
     public void grow(int amount) {
-        List<Vector2d> corpseNeighbours = new ArrayList<>();
-        for (Vector2d corpse : corpses) {
-            for (Vector2d neighbour : neighbours) {
-                corpseNeighbours.add(corpse.add(neighbour));
-            }
-        }
+        List<Vector2d> corpseNeighbours = getPreferredSpaces();
         Collections.shuffle(corpseNeighbours);
         Collection<Vector2d> excluded = grasses.keySet();
         excluded.addAll(corpseNeighbours);
@@ -70,16 +55,14 @@ public class CorpseGlobe extends AbstractGlobeMap {
     }
 
 
-    //TODO: implement when animals added
-
-
     @Override
     public List<Vector2d> getPreferredSpaces() {
         List<Vector2d> corpseNeighbours = new ArrayList<>();
-        for (Vector2d corpse : corpses) {
-            for (Vector2d neighbour : neighbours) {
-                corpseNeighbours.add(corpse.add(neighbour));
-            }
+        for (Animal corpse : deadAnimals) {
+            if(time - corpse.getDeathTime() < decayTime)
+                for (Vector2d neighbour : neighbours) {
+                    corpseNeighbours.add(corpse.getPosition().add(neighbour));
+                }
         }
         return corpseNeighbours;
     }

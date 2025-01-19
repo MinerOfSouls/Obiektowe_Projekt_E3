@@ -65,7 +65,7 @@ public class GlobePresenter implements GlobeChangeListener {
     }
 
     private void drawGrid(Boundary bounds){
-        for (int i = bounds.lowerLeft().getX(); i < bounds.upperRight().getX()+2; i++) {
+        for (int i = bounds.lowerLeft().getX(); i < bounds.upperRight().getX()+1; i++) {
             globe.getColumnConstraints().add(new ColumnConstraints(collumnWidth));
         }
         for (int i = bounds.lowerLeft().getY(); i < bounds.upperRight().getY()+1; i++) {

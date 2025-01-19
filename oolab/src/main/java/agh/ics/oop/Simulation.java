@@ -19,21 +19,28 @@ public class Simulation implements Runnable {
         growthFactor = givenGrowthFactor;
     }
 
-    public synchronized void run(){
-        int current=0;
+    public synchronized void run() {
+        int current = 0;
         try {
-            while(true) {
-                if(runSetting){
-                    map.decreaseEnergy(animals.get(current));
-                    map.move(animals.get(current));
-                    map.eatIfPossible(animals.get(current));
-                    current = current+1;
-                    if(current== animals.size()-1){
+            while (true) {
+                if (runSetting) {
+                    animals = map.getAnimals();
+                    if (animals.isEmpty()) {
+                        continue;
+                    }
+                    if (current < animals.size()) {
+                        map.decreaseEnergy(animals.get(current));
+                        map.move(animals.get(current));
+                        map.eatIfPossible(animals.get(current));
+                    }
+                    current = current + 1;
+                    if (current == animals.size()) {
                         map.increaseTime();
                         map.animalBreeding();
                         animals = map.getAnimals();
                         map.grow(growthFactor);
                         map.removeDeadAnimals();
+                        animals = map.getAnimals();
                         current = 0;
                         notifyListeners();
                     }

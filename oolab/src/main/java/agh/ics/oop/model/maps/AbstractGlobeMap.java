@@ -25,7 +25,7 @@ public abstract class AbstractGlobeMap implements Globe {
     protected final int maximalMutations;
     protected final int foodEnergy;
     protected final int parentBreadingEnergyLoose;
-    protected final int energyLoose;
+    protected final int energyLoose=1;
     protected final Boundary bounds;
     protected Random randomizer = new Random();
 
@@ -33,10 +33,10 @@ public abstract class AbstractGlobeMap implements Globe {
                             int givenHeight,
                             int givenBreadingEnergy,int givenParentBreadingEnergyLoose,
                             int givenMinimalMutations, int givenMaximalMutations,
-                            boolean givenNextGenomeVariant,int givenFoodEnergy,int givenEnergyLoose) {
+                            boolean givenNextGenomeVariant,int givenFoodEnergy) {
 
             id = givenId;
-            energyLoose=givenEnergyLoose;
+
             nextGenomeVariant = givenNextGenomeVariant;
             minimalMutations = givenMinimalMutations;
             maximalMutations = givenMaximalMutations;
@@ -86,7 +86,7 @@ public abstract class AbstractGlobeMap implements Globe {
             }
         }
         public void decreaseEnergy(Animal animal){
-            animal.setEnergy(animal.getEnergy()-energyLoose);
+            animal.setEnergy(animal.getEnergy()-1);
         }
         public void place (Animal animal) throws IncorrectPositionException {
             if (!canMoveTo(animal.getPosition())) {

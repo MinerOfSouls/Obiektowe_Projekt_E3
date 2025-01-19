@@ -101,7 +101,7 @@ public class SettingsPresenter {
     }
 
     private AbstractGlobeMap getSelectedMap(){
-        AbstractGlobeMap map;
+        AbstractGlobeMap map = null;
 
         boolean animalVariant;
         if (behaviourComboBox.getSelectionModel().getSelectedIndex() == 1 || behaviourComboBox.getValue().startsWith("2")){

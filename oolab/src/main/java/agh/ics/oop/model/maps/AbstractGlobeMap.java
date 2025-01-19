@@ -7,6 +7,8 @@ import agh.ics.oop.model.elements.WorldElement;
 import agh.ics.oop.model.util.AnimalComparator;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class AbstractGlobeMap implements Globe {
@@ -191,5 +193,23 @@ public abstract class AbstractGlobeMap implements Globe {
         }
 
     public abstract List<Vector2d> getPreferredSpaces();
+
+    public List<Vector2d> getDominantGenomeLocations(){
+        List<Integer> topGenome = animals.values().stream()
+                .flatMap(Collection::stream)
+                .map(Animal::getGenome)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue()).get().getKey();
+        return animals.values().stream().flatMap(Collection::stream)
+                .filter(animal -> {return animal.getGenome().equals(topGenome);})
+                .map(Animal::getPosition)
+                .distinct()
+                .toList();
+    }
+
+    public int getMinBreedingEnergy(){
+        return breadingEnergy;
+    }
 
 }

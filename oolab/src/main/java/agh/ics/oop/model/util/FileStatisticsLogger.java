@@ -25,7 +25,7 @@ public class FileStatisticsLogger {
             //ignored
         }
         try(FileWriter writer = new FileWriter(file)){
-            writer.write("");
+            writer.write("day, animal_amount, plant_amount, free_space_amount, dominant_genome, average_energy_level, average_lifespan, average_child_amount\n");
         } catch (IOException e) {
             //ignored
         }

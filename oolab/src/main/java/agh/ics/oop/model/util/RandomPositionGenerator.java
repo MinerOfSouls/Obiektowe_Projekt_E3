@@ -55,7 +55,7 @@ public class RandomPositionGenerator implements Iterable<Vector2d>{
 
         @Override
         public boolean hasNext() {
-            return counter<iteratorEnd;
+            return counter<iteratorEnd && !positions.isEmpty();
         }
 
         @Override
@@ -63,6 +63,9 @@ public class RandomPositionGenerator implements Iterable<Vector2d>{
             int index = randomizer.nextInt(positions.size());
             Vector2d output = positions.get(index);
             positions.remove(index);
+            if(positions.isEmpty()){
+                return output;
+            }
             positions.add(index, positions.getLast());
             positions.removeLast();
             counter=counter+1;

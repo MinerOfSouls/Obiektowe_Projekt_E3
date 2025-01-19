@@ -212,4 +212,8 @@ public abstract class AbstractGlobeMap implements Globe {
         return breadingEnergy;
     }
 
+    public int getPlantProvidedEnergy(){
+        return foodEnergy;
+    }
+
 }

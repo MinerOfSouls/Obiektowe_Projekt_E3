@@ -133,10 +133,10 @@ public class Animal implements WorldElement {
         int width=movementMap.getCurrentBounds().upperRight().getX();
         int height=movementMap.getCurrentBounds().upperRight().getY();
         if(next_position.getX() == width){
-            position = new Vector2d(0, position.getY());
+            position = new Vector2d(0, next_position.getY());
         }
         else if(next_position.getX() == -1){
-            position=new Vector2d(width-1, position.getY());
+            position=new Vector2d(width-1, next_position.getY());
         }
         else if(next_position.getY() == height || next_position.getY() == -1){
 
@@ -145,13 +145,14 @@ public class Animal implements WorldElement {
             if (movementMap.canMoveTo(next_position)) {
                 position = next_position;
             }
-            int random = new Random().nextInt(100);
 
-            if (random <= 80 && nextGenomeVariant) {
-                currentGenomeIndex = (currentGenomeIndex + 1) % genome.size();
-            } else {
-                currentGenomeIndex = new Random().nextInt(genome.size());
-            }
+        }
+        int random = new Random().nextInt(100);
+
+        if (random <= 80 && nextGenomeVariant) {
+            currentGenomeIndex = (currentGenomeIndex + 1) % genome.size();
+        } else {
+            currentGenomeIndex = new Random().nextInt(genome.size());
         }
         }
 

@@ -56,6 +56,9 @@ public abstract class AbstractGlobeMap implements Globe {
         }
         public void animalBreeding () {
             for (List<Animal> animalList : animals.values()) {
+                System.out.println(animalList.size());
+                System.out.println(animalList.get(0).getPosition());
+                System.out.println("------------------------------");
                 if (animalList.size() >= 2) {
                     animalList.sort(new AnimalComparator());
                     if (animalList.get(0).getEnergy() >= breadingEnergy &&
@@ -71,6 +74,7 @@ public abstract class AbstractGlobeMap implements Globe {
                         animalList.get(1).addChild(child);
                         try {
                             place(child);
+                            System.out.println("Child born at " + childPosition);
                         } catch (IncorrectPositionException e) {
                             e.printStackTrace();
                         }
@@ -106,6 +110,17 @@ public abstract class AbstractGlobeMap implements Globe {
             animal.move(this);
             var newPosition = animal.getPosition();
             if (!newPosition.equals(oldPosition)) {
+                if (animals.containsKey(oldPosition)) {
+                    animals.get(oldPosition).remove(animal);
+                    if (animals.get(oldPosition).isEmpty()) {
+                        animals.remove(oldPosition);
+                    }
+                    if (animals.containsKey(newPosition)) {
+                        animals.get(newPosition).add(animal);
+                    } else {
+                        animals.put(newPosition, new ArrayList<>(List.of(animal)));
+                    }
+                }
                 notifyListeners(String.format("Animal moves from %s to %s", oldPosition, newPosition));
             }
         }

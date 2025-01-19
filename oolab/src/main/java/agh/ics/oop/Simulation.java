@@ -2,12 +2,14 @@ package agh.ics.oop;
 import agh.ics.oop.model.elements.Animal;
 import agh.ics.oop.model.maps.AbstractGlobeMap;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation implements Runnable {
     private List<Animal> animals;
     private AbstractGlobeMap map;
     private boolean runSetting = true;
+    private List<SimulationListener> listeners = new ArrayList<>();
 
     int growthFactor;
 
@@ -33,7 +35,7 @@ public class Simulation implements Runnable {
                         map.grow(growthFactor);
                         map.removeDeadAnimals();
                         current = 0;
-
+                        notifyListeners();
                     }
                     Thread.sleep(500);
                 } else {
@@ -60,5 +62,19 @@ public class Simulation implements Runnable {
 
     public boolean getState(){
         return runSetting;
+    }
+
+    public void addListener(SimulationListener listener){
+        listeners.add(listener);
+    }
+
+    public void removeListener(SimulationListener listener){
+        listeners.remove(listener);
+    }
+
+    private void notifyListeners(){
+        for(SimulationListener listener: listeners){
+            listener.dayAdvance(this);
+        }
     }
 }

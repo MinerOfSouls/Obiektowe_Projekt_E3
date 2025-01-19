@@ -217,12 +217,7 @@ public abstract class AbstractGlobeMap implements Globe {
     public abstract List<Vector2d> getPreferredSpaces();
 
     public List<Vector2d> getDominantGenomeLocations(){
-        List<Integer> topGenome = animals.values().stream()
-                .flatMap(Collection::stream)
-                .map(Animal::getGenome)
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-                .entrySet().stream()
-                .max(Map.Entry.comparingByValue()).get().getKey();
+        List<Integer> topGenome = getTopGenome();
         return animals.values().stream().flatMap(Collection::stream)
                 .filter(animal -> {return animal.getGenome().equals(topGenome);})
                 .map(Animal::getPosition)
@@ -234,8 +229,38 @@ public abstract class AbstractGlobeMap implements Globe {
         return breadingEnergy;
     }
 
-    public int getPlantProvidedEnergy(){
-        return foodEnergy;
+    public List<Integer> getTopGenome(){
+        return animals.values().stream()
+                .flatMap(Collection::stream)
+                .map(Animal::getGenome)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue()).get().getKey();
+    }
+
+    public int getTime(){
+        return time;
+    }
+
+    public int getAverageEnergy(){
+        return animals.values().stream()
+                .flatMap(Collection::stream)
+                .mapToInt(Animal::getEnergy).sum()/animals.values().stream()
+                .flatMap(Collection::stream).toList().size();
+    }
+
+    public int getAverageLifespan(){
+        return deadAnimals.stream()
+                .mapToInt(animal -> {return animal.getDeathTime()-animal.getDeathTime();})
+                .sum()/deadAnimals.size();
+    }
+
+    public int getAverageChildrenAmount(){
+        return animals.values().stream()
+                .flatMap(Collection::stream)
+                .mapToInt(Animal::getNumberOfChildrens)
+                .sum()/animals.values().stream()
+                .flatMap(Collection::stream).toList().size();
     }
 
 }

@@ -1,20 +1,34 @@
 package agh.ics.oop.model.util;
 
 import agh.ics.oop.Simulation;
+import agh.ics.oop.SimulationListener;
 import agh.ics.oop.model.GlobeChangeListener;
+import agh.ics.oop.model.maps.AbstractGlobeMap;
 import agh.ics.oop.model.maps.Globe;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-//TODO: make output to file when day advances in simulation
 
-public class FileStatisticsLogger {
-    public void simulationChanged(Simulation simulation, String message) {
-        File file = new File(String.format("globe_stats_%d", 0));
+public class FileStatisticsLogger implements SimulationListener {
+    public void dayAdvance(Simulation simulation) {
+        AbstractGlobeMap map = simulation.getMap();
+        File file = new File(String.format("globe_stats_%d", map.getID()));
         if(!file.exists()){
             create_csv(file);
+        }
+        try(FileWriter writer = new FileWriter(file)) {
+            writer.write(
+                    String.format(
+                            "%d, %d, %d, %d, %s, %d, %d, %d\n",
+                            map.getTime(), map.getAnimals().size(), map.getGrassLocations().size(),
+                            (map.getCurrentBounds().upperRight().getY()+1)*(map.getCurrentBounds().upperRight().getY()+1) - map.getGrassLocations().size(),
+                            map.getTopGenome().toString(), map.getAverageEnergy(),
+                            map.getAverageLifespan(), map.getAverageChildrenAmount()
+                    ));
+        } catch (IOException e) {
+            //ignored
         }
     }
 

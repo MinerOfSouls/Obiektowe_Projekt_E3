@@ -8,6 +8,7 @@ import agh.ics.oop.model.maps.AbstractGlobeMap;
 import agh.ics.oop.model.maps.Boundary;
 import agh.ics.oop.model.maps.CorpseGlobe;
 import agh.ics.oop.model.maps.EquatorGlobe;
+import agh.ics.oop.model.util.FileStatisticsLogger;
 import agh.ics.oop.model.util.RandomPositionGenerator;
 import javafx.event.ActionEvent;
 import javafx.scene.control.CheckBox;
@@ -160,7 +161,13 @@ public class SettingsPresenter {
     public Simulation getSelectedSimulation(){
         AbstractGlobeMap map = getSelectedMap();
         placeAnimals(map);
-        return new Simulation(map, dailyPlantAmountSpinner.getValue());
+        Simulation sim = new Simulation(map, dailyPlantAmountSpinner.getValue());
+        if(statisticsSaveCheckBox.isSelected()){
+            sim.addListener(
+                    new FileStatisticsLogger()
+            );
+        }
+        return sim;
     }
 
     private void createConfigFile(File file) throws ParserConfigurationException, TransformerException {

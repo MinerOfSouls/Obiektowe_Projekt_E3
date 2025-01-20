@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="agh.ics.oop.model.Vector2dTest" tests="19" skipped="0" failures="0" errors="0" timestamp="2025-01-20T08:17:50" hostname="PUTER" time="0.439">
+  <properties/>
+  <testcase name="subtractAddsWhenGivenNegative()" classname="agh.ics.oop.model.Vector2dTest" time="0.068"/>
+  <testcase name="subSubtracts()" classname="agh.ics.oop.model.Vector2dTest" time="0.008"/>
+  <testcase name="equalsFalseForDiffrentObject()" classname="agh.ics.oop.model.Vector2dTest" time="0.011"/>
+  <testcase name="equalsFalseForDiffrentVector()" classname="agh.ics.oop.model.Vector2dTest" time="0.001"/>
+  <testcase name="toStringReturnsRightString()" classname="agh.ics.oop.model.Vector2dTest" time="0.057"/>
+  <testcase name="addAdds()" classname="agh.ics.oop.model.Vector2dTest" time="0.002"/>
+  <testcase name="addSubtractsWhenGivenNegative()" classname="agh.ics.oop.model.Vector2dTest" time="0.006"/>
+  <testcase name="lowerLeftReturnsMinimumCoordinates()" classname="agh.ics.oop.model.Vector2dTest" time="0.008"/>
+  <testcase name="upperRightReturnsMaximumCoordinates()" classname="agh.ics.oop.model.Vector2dTest" time="0.001"/>
+  <testcase name="followsReturnsFalseWhenSmallerAndTrueWhenBigger()" classname="agh.ics.oop.model.Vector2dTest" time="0.02"/>
+  <testcase name="upperRightReturnsSameWhenGivenSame()" classname="agh.ics.oop.model.Vector2dTest" time="0.004"/>
+  <testcase name="oppositeReturnZeroWhenGivenZero()" classname="agh.ics.oop.model.Vector2dTest" time="0.035"/>
+  <testcase name="subtractZero()" classname="agh.ics.oop.model.Vector2dTest" time="0.009"/>
+  <testcase name="precedesReturnsTrueWhenSmallerAndFalseWhenBigger()" classname="agh.ics.oop.model.Vector2dTest" time="0.007"/>
+  <testcase name="equalsTrueForSameVactor()" classname="agh.ics.oop.model.Vector2dTest" time="0.011"/>
+  <testcase name="equalsTrueForItself()" classname="agh.ics.oop.model.Vector2dTest" time="0.011"/>
+  <testcase name="oppositeGivesTheOppositeVector()" classname="agh.ics.oop.model.Vector2dTest" time="0.012"/>
+  <testcase name="lowerLeftReturnsSameWhenGivenSame()" classname="agh.ics.oop.model.Vector2dTest" time="0.008"/>
+  <testcase name="addAddsZero()" classname="agh.ics.oop.model.Vector2dTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

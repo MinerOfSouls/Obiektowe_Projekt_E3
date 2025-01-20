@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="agh.ics.oop.model.maps.CorpseGlobeTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-01-20T20:01:40" hostname="PUTER" time="0.007">
+  <properties/>
+  <testcase name="corpseGrowGrowsCorrectGrassAmount()" classname="agh.ics.oop.model.maps.CorpseGlobeTest" time="0.007"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

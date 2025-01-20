@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="agh.ics.oop.model.maps.EquatorGlobeTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2025-01-20T20:01:40" hostname="PUTER" time="0.158">
+  <properties/>
+  <testcase name="animalsBreed()" classname="agh.ics.oop.model.maps.EquatorGlobeTest" time="0.099"/>
+  <testcase name="animalsEat()" classname="agh.ics.oop.model.maps.EquatorGlobeTest" time="0.018"/>
+  <testcase name="growGrowsCorrectGrassAmount()" classname="agh.ics.oop.model.maps.EquatorGlobeTest" time="0.008"/>
+  <testcase name="animalsMove()" classname="agh.ics.oop.model.maps.EquatorGlobeTest" time="0.012"/>
+  <testcase name="deadAnimalRemoved()" classname="agh.ics.oop.model.maps.EquatorGlobeTest" time="0.005"/>
+  <system-out><![CDATA[2
+(2,2)
+------------------------------
+Child born at (2,2)
+Plant eaten at (2,2)
+Animal died at (2,2)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

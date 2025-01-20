@@ -2,7 +2,7 @@ package agh.ics.oop.presenter;
 
 import agh.ics.oop.Simulation;
 import agh.ics.oop.model.MapDirection;
-import com.sun.javafx.collections.ObservableListWrapper;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.collections.FXCollections;
 
 import java.io.IOException;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class MainWindowPresenter {
 
     public void initialize(){
         content.centerProperty().setValue(settings);
-        configComboBox.setItems(new ObservableListWrapper<>(settingsController.getConfigNames()));
+        configComboBox.setItems(FXCollections.observableArrayList(settingsController.getConfigNames()));
     }
 
     private void showAvailableConfigurations(){
@@ -92,7 +93,7 @@ public class MainWindowPresenter {
             loadingErrorLabel.setText("");
         }
         settingsController.saveCurrentConfiguration(configNameTextField.getCharacters().toString());
-        configComboBox.setItems(new ObservableListWrapper<>(settingsController.getConfigNames()));
+        configComboBox.setItems(FXCollections.observableArrayList(settingsController.getConfigNames()));
     }
 
     public void loadChosenConfig(ActionEvent actionEvent) {

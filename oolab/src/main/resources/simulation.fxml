@@ -36,8 +36,6 @@
             <Label text="Wybierz konfigurację"/>
             <ComboBox fx:id="configComboBox">
                 <items>
-                    <FXCollections fx:factory="observableArrayList">
-                    </FXCollections>
                 </items>
             </ComboBox>
             <Button fx:id="loadConfigButton" text="Wczytaj" onAction="#loadChosenConfig"/>

@@ -202,7 +202,7 @@ public class SettingsPresenter {
             transformer.transform(source, new StreamResult(configs));
 
         } catch (ParserConfigurationException | TransformerException | IOException | SAXException e) {
-            //ignored
+            System.out.println("Config file writing failed");
         }
     }
 
@@ -220,7 +220,7 @@ public class SettingsPresenter {
                 names.add(node.getAttributes().getNamedItem("name").getNodeValue());
             }
         } catch (ParserConfigurationException | IOException | SAXException e) {
-            //ignored
+            System.out.println("Config file loading failed");
         }
         return names;
     }
@@ -256,7 +256,7 @@ public class SettingsPresenter {
                 }
             }
         } catch (ParserConfigurationException | IOException | SAXException e) {
-            //ignored
+            System.out.println("Config file reading failed");
         }
     }
 }

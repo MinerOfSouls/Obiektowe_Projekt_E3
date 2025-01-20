@@ -35,6 +35,7 @@ public class GlobePresenter implements GlobeChangeListener {
     public Button startButton;
     public Button stopButton;
     public Button runButton;
+    public Button termianteButton;
 
     private Simulation simulation;
     private SimulationEngine engine;
@@ -59,7 +60,10 @@ public class GlobePresenter implements GlobeChangeListener {
         startButton.visibleProperty().setValue(false);
         startButton.managedProperty().setValue(false);
         stopButton.visibleProperty().setValue(false);
-        stopButton.managedProperty().setValue(true);
+        stopButton.managedProperty().setValue(false);
+
+        termianteButton.visibleProperty().setValue(false);
+        termianteButton.managedProperty().setValue(false);
     }
 
     private void drawGrid(Boundary bounds){
@@ -85,7 +89,7 @@ public class GlobePresenter implements GlobeChangeListener {
 
     private void drawGrass(AbstractGlobeMap map, Collection<Vector2d> locations){
         Boundary bounds = map.getCurrentBounds();
-        int lowerZero = bounds.upperRight().getX();
+        int lowerZero = bounds.upperRight().getY();
         for(Vector2d location : locations){
             ImageView grass = new ImageView(MainWindowPresenter.grassTexture);
             grass.setFitHeight(rowHeight);
@@ -97,7 +101,7 @@ public class GlobePresenter implements GlobeChangeListener {
     private void drawAnimals(AbstractGlobeMap map, List<Animal> topAnimals){
         animalButtons.clear();
         Boundary bounds = map.getCurrentBounds();
-        int lowerZero = bounds.upperRight().getX();
+        int lowerZero = bounds.upperRight().getY();
         for(Animal animal : topAnimals){
             ImageView animalTexture = new ImageView(animal.getTexture());
             animalTexture.setFitWidth(collumnWidth);
@@ -114,6 +118,7 @@ public class GlobePresenter implements GlobeChangeListener {
                         return;
                     }
                     statisticsController.trackAnimal(animals.get(this));
+                    statisticsController.animalStatsController.updateTrackedAnimal(simulation.getMap());
                 }
             };
             animals.put(action, animal);
@@ -181,7 +186,7 @@ public class GlobePresenter implements GlobeChangeListener {
     public void highlightDominantGenome(ActionEvent actionEvent) {
         if(highlightGenomeButton.isSelected()){
             List<Vector2d> positions = simulation.getMap().getDominantGenomeLocations();
-            int lowerZero = simulation.getMap().getCurrentBounds().upperRight().getX();
+            int lowerZero = simulation.getMap().getCurrentBounds().upperRight().getY();
             for (Vector2d position: positions){
                 Rectangle highlight = new Rectangle(collumnWidth, rowHeight);
                 highlight.setFill(dominantGenomeHighlight);
@@ -207,7 +212,7 @@ public class GlobePresenter implements GlobeChangeListener {
     public void highlightPreferredSpaces(ActionEvent actionEvent) {
         if(preferedSpacesButton.isSelected()){
             List<Vector2d> spaces = simulation.getMap().getPreferredSpaces();
-            int lowerZero = simulation.getMap().getCurrentBounds().upperRight().getX();
+            int lowerZero = simulation.getMap().getCurrentBounds().upperRight().getY();
             for (Vector2d position: spaces){
                 Rectangle highlight = new Rectangle(collumnWidth, rowHeight);
                 highlight.setFill(preferredSpaceHighlight);
@@ -240,7 +245,19 @@ public class GlobePresenter implements GlobeChangeListener {
         startButton.visibleProperty().setValue(true);
         startButton.setDisable(true);
 
+        termianteButton.visibleProperty().setValue(true);
+        termianteButton.managedProperty().setValue(true);
+
         engine = new SimulationEngine(List.of(simulation));
         engine.runAsync();
+    }
+
+    public void terminateSimulation(ActionEvent actionEvent) {
+        try {
+            simulation.terminate();
+            engine.awaitSimulationsEnd();
+        } catch (InterruptedException e) {
+            //ignored
+        }
     }
 }

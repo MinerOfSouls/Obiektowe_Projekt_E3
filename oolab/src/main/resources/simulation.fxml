@@ -21,8 +21,7 @@
             <padding>
                 <Insets top="10" bottom="10" left="10" right="10"/>
             </padding>
-            <Button fx:id="defaultValueButton" text="Insert default values" onAction="#insertDefaultValuesClicked"/>
-            <Button fx:id="submitValuesButton" text="Submit values" onAction="#submitValues"/>
+            <Button fx:id="submitValuesButton" text="Stwórz symulację" onAction="#submitValues"/>
         </HBox>
     </bottom>
     <left>

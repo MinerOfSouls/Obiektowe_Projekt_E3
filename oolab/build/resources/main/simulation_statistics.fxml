@@ -26,6 +26,7 @@
     <Label fx:id="averageEnergyLevel"/>
     <Label fx:id="averageLifeSpanLabel"/>
     <Label fx:id="averageChildAmountLabel"/>
+    <Label fx:id="LivingAndDeadAnimalsLabel"/>
     <Separator/>
     <VBox fx:id="animalTrackingVBox"/>
     <Button fx:id="stopTrackingButton" text="Przestań śledzić" onAction="#stopTracking"/>

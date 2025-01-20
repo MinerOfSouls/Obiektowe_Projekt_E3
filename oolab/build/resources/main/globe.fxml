@@ -27,6 +27,7 @@
             <Button fx:id="startButton" text="Start" onAction="#startButtonClicked"/>
             <Button fx:id="stopButton" text="Stop" onAction="#stopButtonClicked"/>
             <Button fx:id="runButton" text="Uruchom" onAction="#runSimulation"/>
+            <Button fx:id="termianteButton" text="Zakończ" onAction="#terminateSimulation"/>
         </HBox>
     </bottom>
 </BorderPane>

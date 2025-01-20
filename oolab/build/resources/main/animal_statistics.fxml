@@ -8,7 +8,8 @@
 
 <VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="agh.ics.oop.presenter.AnimalPresenter">
+            fx:controller="agh.ics.oop.presenter.AnimalPresenter"
+            fx:id="animalTrackingVBox">
     <Label text="Statystyki śledzonego zwiarzaka:"/>
     <Label fx:id="trackedAnimalGenomeLabel"/>
     <Label fx:id="trackedAnimalEnergyLabel"/>

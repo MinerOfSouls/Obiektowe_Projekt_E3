@@ -56,10 +56,6 @@ public class MainWindowPresenter {
 
     }
 
-    public void insertDefaultValuesClicked(ActionEvent actionEvent) {
-        settingsController.insertDefaults();
-    }
-
     public void submitValues(ActionEvent actionEvent) {
         try{
             Simulation simulation = settingsController.getSelectedSimulation();

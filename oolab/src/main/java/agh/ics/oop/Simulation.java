@@ -11,6 +11,8 @@ public class Simulation implements Runnable {
     private boolean runSetting = true;
     private List<SimulationListener> listeners = new ArrayList<>();
 
+    private boolean simulationEnabled = true;
+
     int growthFactor;
 
     public Simulation(AbstractGlobeMap globeMap, int givenGrowthFactor){
@@ -22,7 +24,7 @@ public class Simulation implements Runnable {
     public synchronized void run() {
         int current = 0;
         try {
-            while (true) {
+            while (simulationEnabled) {
                 if (runSetting) {
                     animals = map.getAnimals();
                     if (animals.isEmpty()) {
@@ -83,5 +85,9 @@ public class Simulation implements Runnable {
         for(SimulationListener listener: listeners){
             listener.dayAdvance(this);
         }
+    }
+
+    public void terminate(){
+        simulationEnabled = false;
     }
 }

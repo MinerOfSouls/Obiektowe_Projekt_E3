@@ -64,26 +64,6 @@ public class SettingsPresenter {
 
     private int currentMapId = 0;
 
-    public void insertDefaults(){
-        mapWidthSpinner.getValueFactory().setValue(10);
-        mapHeightSpinner.getValueFactory().setValue(10);
-
-        startingPlantAmountSpinner.getValueFactory().setValue(5);
-        energyPlantSpinner.getValueFactory().setValue(1);
-        dailyPlantAmountSpinner.getValueFactory().setValue(5);
-        startingAnimalsSpinner.getValueFactory().setValue(4);
-        genomeLengthSpinner.getValueFactory().setValue(5);
-        maxMutationAmountSpinner.getValueFactory().setValue(2);
-        minMutationAmountSpinner.getValueFactory().setValue(0);
-        decayTimeSpinner.getValueFactory().setValue(5);
-
-        birthCostSpinner.getValueFactory().setValue(5);
-        satisfiedEnergySpinner.getValueFactory().setValue(10);
-        startingEnergySpinner.getValueFactory().setValue(10);
-
-        statisticsSaveCheckBox.setSelected(false);
-    }
-
     public void mapVariantSelected(javafx.event.ActionEvent actionEvent) {
         switch (mapVariantComboBox.getSelectionModel().getSelectedIndex()){
             case 0 -> {

@@ -15,7 +15,9 @@
     <padding>
         <Insets top="10" bottom="10" left="10" right="10"/>
     </padding>
-    <fx:define><fx:include source="animal_statistics.fxml" fx:id="animalStats"/></fx:define>
+    <fx:define>
+        <fx:include source="animal_statistics.fxml" fx:id="animalStats"/>
+    </fx:define>
 
     <Label text="Statystyki symulacji"/>
     <Label fx:id="animalAmountLabel"/>

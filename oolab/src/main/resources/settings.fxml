@@ -17,7 +17,7 @@
     </padding>
     <Label text="Mapa" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
     <Label text="Szerokość mapy:"
-           GridPane.columnIndex="0" GridPane.rowIndex="1" />
+           GridPane.columnIndex="0" GridPane.rowIndex="1"/>
     <Spinner fx:id="mapWidthSpinner"
              GridPane.columnIndex="1" GridPane.rowIndex="1"
              editable="true">
@@ -26,7 +26,7 @@
         </valueFactory>
     </Spinner>
     <Label text="Wysokość mapy:"
-           GridPane.columnIndex="2" GridPane.rowIndex="1" />
+           GridPane.columnIndex="2" GridPane.rowIndex="1"/>
     <Spinner fx:id="mapHeightSpinner"
              GridPane.columnIndex="3" GridPane.rowIndex="1" editable="true">
         <valueFactory>

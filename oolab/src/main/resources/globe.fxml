@@ -11,7 +11,9 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="agh.ics.oop.presenter.GlobePresenter"
             fx:id="content" minHeight="650.0" minWidth="950.0">
-    <fx:define><fx:include source="simulation_statistics.fxml" fx:id="statistics"/></fx:define>
+    <fx:define>
+        <fx:include source="simulation_statistics.fxml" fx:id="statistics"/>
+    </fx:define>
     <center>
         <GridPane fx:id="globe" alignment="CENTER">
 
@@ -22,8 +24,10 @@
             <padding>
                 <Insets top="10" bottom="10" left="10" right="10"/>
             </padding>
-            <ToggleButton fx:id="highlightGenomeButton" text="Podświetl dominujący genom" onAction="#highlightDominantGenome"/>
-            <ToggleButton fx:id="preferedSpacesButton" text="Podświetl preferowane pola" onAction="#highlightPreferredSpaces"/>
+            <ToggleButton fx:id="highlightGenomeButton" text="Podświetl dominujący genom"
+                          onAction="#highlightDominantGenome"/>
+            <ToggleButton fx:id="preferedSpacesButton" text="Podświetl preferowane pola"
+                          onAction="#highlightPreferredSpaces"/>
             <Button fx:id="startButton" text="Start" onAction="#startButtonClicked"/>
             <Button fx:id="stopButton" text="Stop" onAction="#stopButtonClicked"/>
             <Button fx:id="runButton" text="Uruchom" onAction="#runSimulation"/>

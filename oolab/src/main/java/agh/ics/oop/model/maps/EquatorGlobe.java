@@ -15,17 +15,17 @@ public class EquatorGlobe extends AbstractGlobeMap {
     private List<Boundary> steppeBounds;
 
     public EquatorGlobe(int givenId, int givenWidth, int givenHeight, int startingPlantAmount,
-                        int givenBreadingEnergy,int givenParentBreadingEnergyLoose,
+                        int givenBreadingEnergy, int givenParentBreadingEnergyLoose,
                         int givenMinimalMutations, int givenMaximalMutations,
-                        boolean givenNextGenomeVariant,int givenFoodEnergy) {
+                        boolean givenNextGenomeVariant, int givenFoodEnergy) {
         super(givenId, givenWidth, givenHeight, givenBreadingEnergy,
                 givenParentBreadingEnergyLoose, givenMinimalMutations, givenMaximalMutations, givenNextGenomeVariant, givenFoodEnergy);
 
-        plentifulAreaBounds = new Boundary(new Vector2d(0, (bounds.upperRight().getY()*2)/5),
-                new Vector2d(bounds.upperRight().getX(), (bounds.upperRight().getY()*3)/5));
-        steppeBounds = List.of(new Boundary(new Vector2d(0,0),
-                        new Vector2d(bounds.upperRight().getX(),((bounds.upperRight().getY()*2)/5)-1)),
-                        new Boundary(new Vector2d(0, (((bounds.upperRight().getY()*3)/5)+1)), bounds.upperRight()));
+        plentifulAreaBounds = new Boundary(new Vector2d(0, (bounds.upperRight().getY() * 2) / 5),
+                new Vector2d(bounds.upperRight().getX(), (bounds.upperRight().getY() * 3) / 5));
+        steppeBounds = List.of(new Boundary(new Vector2d(0, 0),
+                        new Vector2d(bounds.upperRight().getX(), ((bounds.upperRight().getY() * 2) / 5) - 1)),
+                new Boundary(new Vector2d(0, (((bounds.upperRight().getY() * 3) / 5) + 1)), bounds.upperRight()));
         grow(startingPlantAmount);
     }
 
@@ -58,8 +58,8 @@ public class EquatorGlobe extends AbstractGlobeMap {
     @Override
     public List<Vector2d> getPreferredSpaces() {
         List<Vector2d> preferredSpaces = new ArrayList<>();
-        for (int i = plentifulAreaBounds.lowerLeft().getX(); i < plentifulAreaBounds.upperRight().getX()+1; i++) {
-            for (int j = plentifulAreaBounds.lowerLeft().getY(); j < plentifulAreaBounds.upperRight().getY()+1; j++) {
+        for (int i = plentifulAreaBounds.lowerLeft().getX(); i < plentifulAreaBounds.upperRight().getX() + 1; i++) {
+            for (int j = plentifulAreaBounds.lowerLeft().getY(); j < plentifulAreaBounds.upperRight().getY() + 1; j++) {
                 preferredSpaces.add(new Vector2d(i, j));
             }
         }

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="agh.ics.oop.model.util.RandomPositionGeneratorTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-01-20T20:01:40" hostname="PUTER" time="0.022">
-  <properties/>
-  <testcase name="randomPositionsNotInExcludedRegions()" classname="agh.ics.oop.model.util.RandomPositionGeneratorTest" time="0.006"/>
-  <testcase name="randomPositionsNotInExcludedPositions()" classname="agh.ics.oop.model.util.RandomPositionGeneratorTest" time="0.013"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
+<testsuite name="agh.ics.oop.model.util.RandomPositionGeneratorTest" tests="2" skipped="0" failures="0" errors="0"
+           timestamp="2025-01-20T20:01:40" hostname="PUTER" time="0.022">
+    <properties/>
+    <testcase name="randomPositionsNotInExcludedRegions()"
+              classname="agh.ics.oop.model.util.RandomPositionGeneratorTest" time="0.006"/>
+    <testcase name="randomPositionsNotInExcludedPositions()"
+              classname="agh.ics.oop.model.util.RandomPositionGeneratorTest" time="0.013"/>
+    <system-out><![CDATA[]]></system-out>
+    <system-err><![CDATA[]]></system-err>
 </testsuite>

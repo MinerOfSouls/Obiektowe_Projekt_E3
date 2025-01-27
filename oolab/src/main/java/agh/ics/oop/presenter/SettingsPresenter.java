@@ -65,7 +65,7 @@ public class SettingsPresenter {
     private int currentMapId = 0;
 
     public void mapVariantSelected(javafx.event.ActionEvent actionEvent) {
-        switch (mapVariantComboBox.getSelectionModel().getSelectedIndex()){
+        switch (mapVariantComboBox.getSelectionModel().getSelectedIndex()) {
             case 0 -> {
                 decayTimeLabel.visibleProperty().setValue(false);
                 decayTimeLabel.managedProperty().setValue(false);
@@ -81,19 +81,18 @@ public class SettingsPresenter {
         }
     }
 
-    private AbstractGlobeMap getSelectedMap(){
+    private AbstractGlobeMap getSelectedMap() {
         AbstractGlobeMap map = null;
 
         boolean animalVariant;
-        if (behaviourComboBox.getSelectionModel().getSelectedIndex() == 1 || behaviourComboBox.getValue().startsWith("2")){
+        if (behaviourComboBox.getSelectionModel().getSelectedIndex() == 1 || behaviourComboBox.getValue().startsWith("2")) {
             animalVariant = true;
-        }
-        else{
+        } else {
             animalVariant = false;
         }
 
 
-        switch (mapVariantComboBox.getSelectionModel().getSelectedIndex()){
+        switch (mapVariantComboBox.getSelectionModel().getSelectedIndex()) {
             case 0 -> {
                 currentMapId++;
                 map = new EquatorGlobe(currentMapId, mapWidthSpinner.getValue(), mapHeightSpinner.getValue(),
@@ -112,15 +111,14 @@ public class SettingsPresenter {
         return map;
     }
 
-    private void placeAnimals(AbstractGlobeMap map){
+    private void placeAnimals(AbstractGlobeMap map) {
         RandomPositionGenerator generator = new RandomPositionGenerator(map.getCurrentBounds(),
                 startingAnimalsSpinner.getValue(), List.of(), null);
         Random random = new Random();
         boolean animalVariant;
-        if (behaviourComboBox.getSelectionModel().getSelectedIndex() == 1){
+        if (behaviourComboBox.getSelectionModel().getSelectedIndex() == 1) {
             animalVariant = true;
-        }
-        else{
+        } else {
             animalVariant = false;
         }
         try {
@@ -138,11 +136,11 @@ public class SettingsPresenter {
         }
     }
 
-    public Simulation getSelectedSimulation(){
+    public Simulation getSelectedSimulation() {
         AbstractGlobeMap map = getSelectedMap();
         placeAnimals(map);
         Simulation sim = new Simulation(map, dailyPlantAmountSpinner.getValue());
-        if(statisticsSaveCheckBox.isSelected()){
+        if (statisticsSaveCheckBox.isSelected()) {
             sim.addListener(
                     new FileStatisticsLogger()
             );
@@ -162,10 +160,10 @@ public class SettingsPresenter {
         transformer.transform(source, new StreamResult(file));
     }
 
-    public void saveCurrentConfiguration(String configName){
-        try{
+    public void saveCurrentConfiguration(String configName) {
+        try {
             File configs = new File("configurations.xml");
-            if(!configs.exists()){
+            if (!configs.exists()) {
                 createConfigFile(configs);
             }
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -206,7 +204,7 @@ public class SettingsPresenter {
         }
     }
 
-    public List<String> getConfigNames(){
+    public List<String> getConfigNames() {
         List<String> names = new ArrayList<>();
         try {
             File configs = new File("configurations.xml");
@@ -215,7 +213,7 @@ public class SettingsPresenter {
             Document document = builder.parse(configs);
 
             NodeList list = document.getElementsByTagName("configuration");
-            for(int i = 0; i < list.getLength(); i++){
+            for (int i = 0; i < list.getLength(); i++) {
                 Node node = list.item(i);
                 names.add(node.getAttributes().getNamedItem("name").getNodeValue());
             }
@@ -225,7 +223,7 @@ public class SettingsPresenter {
         return names;
     }
 
-    public void readConfiguration(String name){
+    public void readConfiguration(String name) {
         try {
             File configs = new File("configurations.xml");
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -233,9 +231,9 @@ public class SettingsPresenter {
             Document document = builder.parse(configs);
 
             NodeList list = document.getElementsByTagName("configuration");
-            for(int i = 0; i < list.getLength(); i++){
+            for (int i = 0; i < list.getLength(); i++) {
                 Node node = list.item(i);
-                if(node.getAttributes().getNamedItem("name").getNodeValue().equals(name)){
+                if (node.getAttributes().getNamedItem("name").getNodeValue().equals(name)) {
                     mapWidthSpinner.getValueFactory().setValue(Integer.valueOf(node.getAttributes().getNamedItem("mapWidth").getNodeValue()));
                     mapHeightSpinner.getValueFactory().setValue(Integer.valueOf(node.getAttributes().getNamedItem("mapHeight").getNodeValue()));
 

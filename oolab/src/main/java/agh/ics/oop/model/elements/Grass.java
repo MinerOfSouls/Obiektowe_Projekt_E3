@@ -7,11 +7,11 @@ import javafx.scene.image.Image;
 public class Grass implements WorldElement {
     private Vector2d position;
 
-    public Grass(Vector2d givenPosition){
-        position=givenPosition;
+    public Grass(Vector2d givenPosition) {
+        position = givenPosition;
     }
 
-    public String toString(){
+    public String toString() {
         return "*";
     }
 

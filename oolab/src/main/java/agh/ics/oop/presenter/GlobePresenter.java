@@ -50,7 +50,7 @@ public class GlobePresenter implements GlobeChangeListener {
     private final Paint dominantGenomeHighlight = Color.web("rgba(227, 2, 2, 0.42)");
     private final Paint energyBarColor = Color.web("rgba(255, 67, 67, 1)");
 
-    public void initialize(){
+    public void initialize() {
         content.setLeft(statistics);
         highlightGenomeButton.visibleProperty().setValue(false);
         highlightGenomeButton.managedProperty().setValue(false);
@@ -66,19 +66,19 @@ public class GlobePresenter implements GlobeChangeListener {
         termianteButton.managedProperty().setValue(false);
     }
 
-    private void drawGrid(Boundary bounds){
-        for (int i = bounds.lowerLeft().getX(); i < bounds.upperRight().getX()+1; i++) {
+    private void drawGrid(Boundary bounds) {
+        for (int i = bounds.lowerLeft().getX(); i < bounds.upperRight().getX() + 1; i++) {
             globe.getColumnConstraints().add(new ColumnConstraints(collumnWidth));
         }
-        for (int i = bounds.lowerLeft().getY(); i < bounds.upperRight().getY()+1; i++) {
+        for (int i = bounds.lowerLeft().getY(); i < bounds.upperRight().getY() + 1; i++) {
             globe.getRowConstraints().add(new RowConstraints(rowHeight));
         }
     }
 
-    private void drawGround(AbstractGlobeMap map){
+    private void drawGround(AbstractGlobeMap map) {
         Boundary bounds = map.getCurrentBounds();
-        for (int i = 0; i < bounds.upperRight().getX()+1; i++) {
-            for (int j = 0; j < bounds.upperRight().getY()+1; j++) {
+        for (int i = 0; i < bounds.upperRight().getX() + 1; i++) {
+            for (int j = 0; j < bounds.upperRight().getY() + 1; j++) {
                 ImageView ground = new ImageView(MainWindowPresenter.groundTexture);
                 ground.setFitWidth(collumnWidth);
                 ground.setFitHeight(rowHeight);
@@ -87,10 +87,10 @@ public class GlobePresenter implements GlobeChangeListener {
         }
     }
 
-    private void drawGrass(AbstractGlobeMap map, Collection<Vector2d> locations){
+    private void drawGrass(AbstractGlobeMap map, Collection<Vector2d> locations) {
         Boundary bounds = map.getCurrentBounds();
         int lowerZero = bounds.upperRight().getY();
-        for(Vector2d location : locations){
+        for (Vector2d location : locations) {
             ImageView grass = new ImageView(MainWindowPresenter.grassTexture);
             grass.setFitHeight(rowHeight);
             grass.setFitWidth(collumnWidth);
@@ -98,11 +98,11 @@ public class GlobePresenter implements GlobeChangeListener {
         }
     }
 
-    private void drawAnimals(AbstractGlobeMap map, List<Animal> topAnimals){
+    private void drawAnimals(AbstractGlobeMap map, List<Animal> topAnimals) {
         animalButtons.clear();
         Boundary bounds = map.getCurrentBounds();
         int lowerZero = bounds.upperRight().getY();
-        for(Animal animal : topAnimals){
+        for (Animal animal : topAnimals) {
             ImageView animalTexture = new ImageView(animal.getTexture());
             animalTexture.setFitWidth(collumnWidth);
             animalTexture.setFitHeight(rowHeight);
@@ -114,7 +114,7 @@ public class GlobePresenter implements GlobeChangeListener {
             EventHandler<ActionEvent> action = new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    if (simulation.getState()){
+                    if (simulation.getState()) {
                         return;
                     }
                     statisticsController.trackAnimal(animals.get(this));
@@ -127,7 +127,7 @@ public class GlobePresenter implements GlobeChangeListener {
             globe.add(animalButton, animal.getPosition().getX(), lowerZero - animal.getPosition().getY());
 
             Rectangle energyBar = new Rectangle(
-                    collumnWidth*(Math.min(1.0, (double) animal.getEnergy() / map.getMinBreedingEnergy())), rowHeight*0.1);
+                    collumnWidth * (Math.min(1.0, (double) animal.getEnergy() / map.getMinBreedingEnergy())), rowHeight * 0.1);
             GridPane.setHalignment(energyBar, HPos.LEFT);
             GridPane.setValignment(energyBar, VPos.BOTTOM);
             energyBar.setFill(Color.RED);
@@ -179,25 +179,24 @@ public class GlobePresenter implements GlobeChangeListener {
         simulation.getMap().addListener(statisticsController);
         statisticsController.mapChanged(simulation.getMap(), "");
         Boundary bounds = simulation.getMap().getCurrentBounds();
-        rowHeight = Math.min(500/bounds.upperRight().getX(),500/bounds.upperRight().getY());
+        rowHeight = Math.min(500 / bounds.upperRight().getX(), 500 / bounds.upperRight().getY());
         collumnWidth = rowHeight;
     }
 
     public void highlightDominantGenome(ActionEvent actionEvent) {
-        if(highlightGenomeButton.isSelected()){
+        if (highlightGenomeButton.isSelected()) {
             List<Vector2d> positions = simulation.getMap().getDominantGenomeLocations();
             int lowerZero = simulation.getMap().getCurrentBounds().upperRight().getY();
-            for (Vector2d position: positions){
+            for (Vector2d position : positions) {
                 Rectangle highlight = new Rectangle(collumnWidth, rowHeight);
                 highlight.setFill(dominantGenomeHighlight);
                 globe.add(highlight, position.getX(), lowerZero - position.getY());
             }
-        }
-        else {
+        } else {
             globe.getChildren().removeIf((Node node) -> {
-                if(node.getClass() == Rectangle.class){
+                if (node.getClass() == Rectangle.class) {
                     Rectangle highlight = (Rectangle) node;
-                    if(highlight.getFill() == dominantGenomeHighlight){
+                    if (highlight.getFill() == dominantGenomeHighlight) {
                         return true;
                     } else {
                         return false;
@@ -210,20 +209,19 @@ public class GlobePresenter implements GlobeChangeListener {
     }
 
     public void highlightPreferredSpaces(ActionEvent actionEvent) {
-        if(preferedSpacesButton.isSelected()){
+        if (preferedSpacesButton.isSelected()) {
             List<Vector2d> spaces = simulation.getMap().getPreferredSpaces();
             int lowerZero = simulation.getMap().getCurrentBounds().upperRight().getY();
-            for (Vector2d position: spaces){
+            for (Vector2d position : spaces) {
                 Rectangle highlight = new Rectangle(collumnWidth, rowHeight);
                 highlight.setFill(preferredSpaceHighlight);
                 globe.add(highlight, position.getX(), lowerZero - position.getY());
             }
-        }
-        else{
+        } else {
             globe.getChildren().removeIf((Node node) -> {
-                if(node.getClass() == Rectangle.class){
+                if (node.getClass() == Rectangle.class) {
                     Rectangle highlight = (Rectangle) node;
-                    if(highlight.getFill() == preferredSpaceHighlight){
+                    if (highlight.getFill() == preferredSpaceHighlight) {
                         return true;
                     } else {
                         return false;

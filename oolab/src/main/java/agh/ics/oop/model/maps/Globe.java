@@ -10,7 +10,7 @@ import agh.ics.oop.model.elements.WorldElement;
 import java.util.Collection;
 import java.util.List;
 
-public interface Globe extends MoveValidator {
+public interface Globe extends MoveValidator { // czy ten interfejs coś wnosi, jak jest klasa abstrakcyjna?
     public boolean canMoveTo(Vector2d position);
 
     public void place(Animal animal) throws IncorrectPositionException;

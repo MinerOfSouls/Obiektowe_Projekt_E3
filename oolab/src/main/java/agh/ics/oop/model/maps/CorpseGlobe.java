@@ -11,14 +11,14 @@ public class CorpseGlobe extends AbstractGlobeMap {
 
     private List<Vector2d> corpses = new ArrayList<>();
     private List<Vector2d> neighbours = List.of(new Vector2d(1, 0), new Vector2d(-1, 0),
-            new Vector2d(0, 1), new Vector2d(0, -1), new Vector2d(0,0));
+            new Vector2d(0, 1), new Vector2d(0, -1), new Vector2d(0, 0));
     private final int decayTime;
 
     public CorpseGlobe(int givenId, int givenWidth, int givenHeight, int startingPlantAmount,
-                               int givenDecayTime,
-                       int givenBreadingEnergy,int givenParentBreadingEnergyLoose,
+                       int givenDecayTime,
+                       int givenBreadingEnergy, int givenParentBreadingEnergyLoose,
                        int givenMinimalMutations, int givenMaximalMutations,
-                       boolean givenNextGenomeVariant,int givenFoodEnergy) {
+                       boolean givenNextGenomeVariant, int givenFoodEnergy) {
         super(givenId, givenWidth, givenHeight, givenBreadingEnergy,
                 givenParentBreadingEnergyLoose, givenMinimalMutations, givenMaximalMutations, givenNextGenomeVariant, givenFoodEnergy);
         decayTime = givenDecayTime;
@@ -61,7 +61,7 @@ public class CorpseGlobe extends AbstractGlobeMap {
     public List<Vector2d> getPreferredSpaces() {
         List<Vector2d> corpseNeighbours = new ArrayList<>();
         for (Animal corpse : deadAnimals) {
-            if(time - corpse.getDeathTime() < decayTime)
+            if (time - corpse.getDeathTime() < decayTime)
                 for (Vector2d neighbour : neighbours) {
                     corpseNeighbours.add(corpse.getPosition().add(neighbour));
                 }

@@ -1,4 +1,5 @@
 package agh.ics.oop;
+
 import agh.ics.oop.model.elements.Animal;
 import agh.ics.oop.model.maps.AbstractGlobeMap;
 
@@ -8,14 +9,14 @@ import java.util.List;
 public class Simulation implements Runnable {
     private List<Animal> animals;
     private AbstractGlobeMap map;
-    private boolean runSetting = true;
+    private boolean runSetting = true; // nazwa
     private List<SimulationListener> listeners = new ArrayList<>();
 
     private boolean simulationEnabled = true;
 
     int growthFactor;
 
-    public Simulation(AbstractGlobeMap globeMap, int givenGrowthFactor){
+    public Simulation(AbstractGlobeMap globeMap, int givenGrowthFactor) {
         map = globeMap;
         animals = globeMap.getAnimals();
         growthFactor = givenGrowthFactor;
@@ -35,7 +36,7 @@ public class Simulation implements Runnable {
                         map.move(animals.get(current));
                         map.eatIfPossible(animals.get(current));
                     }
-                    current = current + 1;
+                    current = current + 1; // czemu nie for-each?
                     if (current == animals.size()) {
                         map.increaseTime();
                         map.animalBreeding();
@@ -51,17 +52,17 @@ public class Simulation implements Runnable {
                     wait();
                 }
             }
-        } catch (InterruptedException e){
+        } catch (InterruptedException e) {
             //ignored
         }
     }
 
-    public synchronized void start(){
+    public synchronized void start() {
         runSetting = true;
         notify();
     }
 
-    public void stop(){
+    public void stop() {
         runSetting = false;
     }
 
@@ -69,25 +70,25 @@ public class Simulation implements Runnable {
         return map;
     }
 
-    public boolean getState(){
+    public boolean getState() {
         return runSetting;
     }
 
-    public void addListener(SimulationListener listener){
+    public void addListener(SimulationListener listener) {
         listeners.add(listener);
     }
 
-    public void removeListener(SimulationListener listener){
+    public void removeListener(SimulationListener listener) {
         listeners.remove(listener);
     }
 
-    private void notifyListeners(){
-        for(SimulationListener listener: listeners){
+    private void notifyListeners() {
+        for (SimulationListener listener : listeners) {
             listener.dayAdvance(this);
         }
     }
 
-    public void terminate(){
+    public void terminate() {
         simulationEnabled = false;
     }
 }

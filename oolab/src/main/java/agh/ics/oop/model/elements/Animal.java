@@ -7,20 +7,21 @@ import javafx.scene.image.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 public class Animal implements WorldElement {
     private MapDirection facing;
     private Vector2d position;
-    private List<Integer> genome = new ArrayList<>();
-    private List<Animal> childrens = new ArrayList<>();
-    private boolean nextGenomeVariant;
-    private int minimalMutations ;
-    private int maximalMutations ;
+    private List<Integer> genome = new ArrayList<>(); // czy na to by się nie przydała osobna klasa?
+    private List<Animal> childrens = new ArrayList<>(); // liczba podwójnie mnoga
+    private boolean nextGenomeVariant; // wariant jest boolem?
+    private int minimalMutations;
+    private int maximalMutations;
     public int currentGenomeIndex;
-    private int energy ;
+    private int energy;
     private int bornTime;
-    private int plantsEaten ;
+    private int plantsEaten;
 
-    private int childs;
+    private int childs; // czym się różni childs od childrens?
     private int deadTime;
 
     public Animal() {
@@ -32,74 +33,83 @@ public class Animal implements WorldElement {
     }
 
     public Animal(Vector2d given_position, List<Integer> genome,
-                  int given_energy,int time, int minimalMutations, int maximalMutations,
+                  int given_energy, int time, int minimalMutations, int maximalMutations,
                   boolean nextGenomeVariant) {
-        childs=0;
-        plantsEaten=0;
+        childs = 0;
+        plantsEaten = 0;
         position = given_position;
-        this.nextGenomeVariant=nextGenomeVariant;
+        this.nextGenomeVariant = nextGenomeVariant;
         this.minimalMutations = minimalMutations;
         this.maximalMutations = maximalMutations;
-        this.energy=given_energy;
-        bornTime=time;
-        currentGenomeIndex=0;
+        this.energy = given_energy;
+        bornTime = time;
+        currentGenomeIndex = 0;
         this.genome = genome;
         MapDirection randomDirection = MapDirection.NORTH;
-        int randomNum= new Random().nextInt(genome.size());
+        int randomNum = new Random().nextInt(genome.size());
         for (int i = 0; i < randomNum; i++) {
             randomDirection = randomDirection.next();
         }
-        facing=randomDirection;
+        facing = randomDirection;
     }
 
     public Animal(Vector2d given_position, Animal parent1, Animal parent2,
-                  int given_energy,int time, int minimalMutations, int maximalMutations,
+                  int given_energy, int time, int minimalMutations, int maximalMutations,
                   boolean nextGenomeVariant) {
         position = given_position;
-        this.nextGenomeVariant=nextGenomeVariant;
+        this.nextGenomeVariant = nextGenomeVariant;
         this.minimalMutations = minimalMutations;
         this.maximalMutations = maximalMutations;
-        this.energy=given_energy;
-        plantsEaten=0;
+        this.energy = given_energy;
+        plantsEaten = 0;
         genome = combineGenomes(parent1, parent2);
         MapDirection randomDirection = MapDirection.NORTH;
-        int randomNum= new Random().nextInt(genome.size());
+        int randomNum = new Random().nextInt(genome.size());
         for (int i = 0; i < randomNum; i++) {
             randomDirection = randomDirection.next();
         }
-        facing=randomDirection;
-        currentGenomeIndex=randomNum;
-        bornTime=time;
+        facing = randomDirection;
+        currentGenomeIndex = randomNum;
+        bornTime = time;
 
     }
-    public void setPosition(Vector2d position){
-        this.position=position;
+
+    public void setPosition(Vector2d position) {
+        this.position = position;
     }
-    public void setDeathTime(int time){
-        deadTime=time;
+
+    public void setDeathTime(int time) {
+        deadTime = time;
     }
-    public int getDeathTime(){
+
+    public int getDeathTime() {
         return deadTime;
     }
 
-    public void increasePlantsEaten(){
+    public void increasePlantsEaten() {
         plantsEaten++;
     }
-    public int getPlantsEaten(){
+
+    public int getPlantsEaten() {
         return plantsEaten;
     }
-    public void addChild(Animal child){
+
+    public void addChild(Animal child) {
         childrens.add(child);
     }
-    public void increaseChilds(){
+
+    public void increaseChilds() {
         childs++;
     }
-    public int getBornTime(){
+
+    public int getBornTime() {
         return bornTime;
     }
-    public int getNumberOfChildrens(){
+
+    public int getNumberOfChildrens() {
         return childs;
     }
+
     @Override
     public String toString() {
         return String.format("%s", facing);
@@ -136,59 +146,53 @@ public class Animal implements WorldElement {
         }
 
         var next_position = position.add(facing.toUnitVector());
-        int width=movementMap.getCurrentBounds().upperRight().getX();
-        int height=movementMap.getCurrentBounds().upperRight().getY();
-        if(next_position.getX() > width){
+        int width = movementMap.getCurrentBounds().upperRight().getX();
+        int height = movementMap.getCurrentBounds().upperRight().getY();
+        if (next_position.getX() > width) {
             System.out.println("jestem" + position);
-            if(next_position.getY() >= height){
-                position = new Vector2d(0, height-1);
-            }
-            else if(next_position.getY() <= -1){
+            if (next_position.getY() >= height) {
+                position = new Vector2d(0, height - 1);
+            } else if (next_position.getY() <= -1) {
                 position = new Vector2d(0, 0);
-            }
-            else{
+            } else {
                 position = new Vector2d(0, next_position.getY());
             }
 
-            System.out.println("teplem" + position);
+            System.out.println("teplem" + position); // teplem?
 
-        }
-        else if(next_position.getX() <= -1){
+        } else if (next_position.getX() <= -1) {
             System.out.println("jestem" + position);
-            if(next_position.getY() >= height){
-                position = new Vector2d(width-1, height-1);
-            }
-            else if(next_position.getY() <= -1){
-                position = new Vector2d(width-1, 0);
-            }
-            else{
+            if (next_position.getY() >= height) {
+                position = new Vector2d(width - 1, height - 1);
+            } else if (next_position.getY() <= -1) {
+                position = new Vector2d(width - 1, 0);
+            } else {
                 position = new Vector2d(width, next_position.getY());
             }
 
             System.out.println("teplem" + position);
-        }
-        else if(next_position.getY() >= height || next_position.getY() <= -1){
+        } else if (next_position.getY() >= height || next_position.getY() <= -1) {
 
-        }
-        else {
+        } else {
             if (movementMap.canMoveTo(next_position)) {
                 position = next_position;
             }
 
         }
-        int random = new Random().nextInt(100);
+        int random = new Random().nextInt(100); // nowy obiekt co wywołanie?
 
         if (random <= 80 && nextGenomeVariant) {
             currentGenomeIndex = (currentGenomeIndex + 1) % genome.size();
         } else {
-            currentGenomeIndex = new Random().nextInt(genome.size());
+            currentGenomeIndex = new Random().nextInt(genome.size()); // nowy obiekt co wywołanie?
         }
-        }
+    }
 
 
     public List<Integer> getGenome() {
         return genome;
     }
+
     private List<Integer> combineGenomes(Animal parent1, Animal parent2) {
         List<Integer> genome1 = parent1.getGenome();
         List<Integer> genome2 = parent2.getGenome();

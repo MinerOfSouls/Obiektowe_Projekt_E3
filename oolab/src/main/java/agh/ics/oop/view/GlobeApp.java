@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class GlobeApp extends Application {
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("simulation.fxml"));
@@ -20,7 +20,7 @@ public class GlobeApp extends Application {
             configureStage(primaryStage, viewRoot);
             primaryStage.show();
             presenter.initialize();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             System.out.println("An IO exception has occurred");
         }

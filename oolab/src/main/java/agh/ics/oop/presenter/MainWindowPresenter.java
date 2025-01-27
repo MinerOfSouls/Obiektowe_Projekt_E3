@@ -32,7 +32,8 @@ public class MainWindowPresenter {
     public ComboBox<String> configComboBox;
     public Label loadingErrorLabel;
 
-    @FXML private SettingsPresenter settingsController;
+    @FXML
+    private SettingsPresenter settingsController;
 
     public static Map<MapDirection, Image> animalTextures = Map.of(
             MapDirection.NORTH, new Image("north.png"),
@@ -48,17 +49,17 @@ public class MainWindowPresenter {
     public static Image grassTexture = new Image("grass.png");
     public static Image groundTexture = new Image("ground.png");
 
-    public void initialize(){
+    public void initialize() {
         content.centerProperty().setValue(settings);
         configComboBox.setItems(FXCollections.observableArrayList(settingsController.getConfigNames()));
     }
 
-    private void showAvailableConfigurations(){
+    private void showAvailableConfigurations() {
 
     }
 
     public void submitValues(ActionEvent actionEvent) {
-        try{
+        try {
             Simulation simulation = settingsController.getSelectedSimulation();
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader();
@@ -85,11 +86,10 @@ public class MainWindowPresenter {
 
 
     public void saveCurrentConfig(ActionEvent actionEvent) {
-        if (configNameTextField.getCharacters().isEmpty()){
+        if (configNameTextField.getCharacters().isEmpty()) {
             loadingErrorLabel.setText("Nazwa konfiguracji pusta");
             return;
-        }
-        else {
+        } else {
             loadingErrorLabel.setText("");
         }
         settingsController.saveCurrentConfiguration(configNameTextField.getCharacters().toString());

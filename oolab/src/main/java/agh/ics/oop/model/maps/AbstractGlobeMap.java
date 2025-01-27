@@ -25,108 +25,112 @@ public abstract class AbstractGlobeMap implements Globe {
     protected final int maximalMutations;
     protected final int foodEnergy;
     protected final int parentBreadingEnergyLoose;
-    protected final int energyLoose=1;
+    protected final int energyLoose = 1;
     protected final Boundary bounds;
-    protected Random randomizer = new Random();
+    protected Random randomizer = new Random(); // static?
 
     public AbstractGlobeMap(int givenId, int givenWidth,
                             int givenHeight,
-                            int givenBreadingEnergy,int givenParentBreadingEnergyLoose,
+                            int givenBreadingEnergy, int givenParentBreadingEnergyLoose,
                             int givenMinimalMutations, int givenMaximalMutations,
-                            boolean givenNextGenomeVariant,int givenFoodEnergy) {
+                            boolean givenNextGenomeVariant, int givenFoodEnergy) {
 
-            id = givenId;
+        id = givenId;
 
-            nextGenomeVariant = givenNextGenomeVariant;
-            minimalMutations = givenMinimalMutations;
-            maximalMutations = givenMaximalMutations;
-            foodEnergy = givenFoodEnergy;
-            parentBreadingEnergyLoose = givenParentBreadingEnergyLoose;
-            breadingEnergy = givenBreadingEnergy;
-            bounds = new Boundary(new Vector2d(0, 0), new Vector2d(givenWidth - 1, givenHeight - 1));
-            time = 0;
-        }
+        nextGenomeVariant = givenNextGenomeVariant;
+        minimalMutations = givenMinimalMutations;
+        maximalMutations = givenMaximalMutations;
+        foodEnergy = givenFoodEnergy;
+        parentBreadingEnergyLoose = givenParentBreadingEnergyLoose;
+        breadingEnergy = givenBreadingEnergy;
+        bounds = new Boundary(new Vector2d(0, 0), new Vector2d(givenWidth - 1, givenHeight - 1));
+        time = 0;
+    }
 
-        public void increaseTime () {
-            this.time += 1;
-        }
+    public void increaseTime() {
+        this.time += 1;
+    }
 
-        public boolean canMoveTo (Vector2d position){
-            return bounds.upperRight().getY() >= position.getY() && bounds.lowerLeft().getY() <= position.getY();
-        }
-        public void animalBreeding () {
-            for (List<Animal> animalList : animals.values()) {
-                System.out.println(animalList.size());
-                System.out.println(animalList.get(0).getPosition());
-                System.out.println("------------------------------");
-                if (animalList.size() >= 2) {
-                    animalList.sort(new AnimalComparator());
-                    if (animalList.get(0).getEnergy() >= breadingEnergy &&
-                            animalList.get(1).getEnergy() >= breadingEnergy) {
-                        Vector2d childPosition = animalList.get(0).getPosition();
-                        Animal child = new Animal(childPosition, animalList.get(0), animalList.get(1), 2 * parentBreadingEnergyLoose, time,
-                                minimalMutations, maximalMutations, nextGenomeVariant);
-                        animalList.get(0).setEnergy((int) (animalList.get(0).getEnergy() - parentBreadingEnergyLoose));
-                        animalList.get(1).setEnergy((int) (animalList.get(1).getEnergy() - parentBreadingEnergyLoose));
-                        animalList.get(0).increaseChilds();
-                        animalList.get(1).increaseChilds();
-                        animalList.get(0).addChild(child);
-                        animalList.get(1).addChild(child);
-                        try {
-                            place(child);
-                            System.out.println("Child born at " + childPosition);
-                        } catch (IncorrectPositionException e) {
-                            e.printStackTrace();
-                        }
+    public boolean canMoveTo(Vector2d position) {
+        return bounds.upperRight().getY() >= position.getY() && bounds.lowerLeft().getY() <= position.getY();
+    }
+
+    public void animalBreeding() {
+        for (List<Animal> animalList : animals.values()) {
+            System.out.println(animalList.size());
+            System.out.println(animalList.get(0).getPosition());
+            System.out.println("------------------------------");
+            if (animalList.size() >= 2) {
+                animalList.sort(new AnimalComparator());
+                if (animalList.get(0).getEnergy() >= breadingEnergy &&
+                        animalList.get(1).getEnergy() >= breadingEnergy) {
+                    Vector2d childPosition = animalList.get(0).getPosition();
+                    Animal child = new Animal(childPosition, animalList.get(0), animalList.get(1), 2 * parentBreadingEnergyLoose, time,
+                            minimalMutations, maximalMutations, nextGenomeVariant);
+                    animalList.get(0).setEnergy((int) (animalList.get(0).getEnergy() - parentBreadingEnergyLoose));
+                    animalList.get(1).setEnergy((int) (animalList.get(1).getEnergy() - parentBreadingEnergyLoose));
+                    animalList.get(0).increaseChilds();
+                    animalList.get(1).increaseChilds();
+                    animalList.get(0).addChild(child);
+                    animalList.get(1).addChild(child);
+                    try {
+                        place(child);
+                        System.out.println("Child born at " + childPosition);
+                    } catch (IncorrectPositionException e) { // czy to się może wydarzyć?
+                        e.printStackTrace();
                     }
                 }
             }
         }
-        public void eatIfPossible (Animal animal){
-            if (grasses.containsKey(animal.getPosition())) {
-                animal.setEnergy(animal.getEnergy() + foodEnergy);
-                grasses.remove(animal.getPosition());
-                animal.increasePlantsEaten();
-                System.out.println("Plant eaten at " + animal.getPosition());
-            }
-        }
-        public void decreaseEnergy(Animal animal){
-            animal.setEnergy(animal.getEnergy()-1);
-        }
-        public void place (Animal animal) throws IncorrectPositionException {
-            if (!canMoveTo(animal.getPosition())) {
-                throw new IncorrectPositionException(animal.getPosition());
-            }
-            if (animals.containsKey(animal.getPosition())) {
-                animals.get(animal.getPosition()).add(animal);
-            } else {
-                animals.put(animal.getPosition(), new ArrayList<>(List.of(animal)));
-            }
-            notifyListeners(String.format("Animal placed at %s", animal.getPosition()));
-        }
+    }
 
-        //TODO: left and right wrapping
-        public void move (Animal animal){
-            var oldPosition = animal.getPosition();
-            animal.move(this);
-            var newPosition = animal.getPosition();
-            if (!newPosition.equals(oldPosition)) {
-                if (animals.containsKey(oldPosition)) {
-                    animals.get(oldPosition).remove(animal);
-                    if (animals.get(oldPosition).isEmpty()) {
-                        animals.remove(oldPosition);
-                    }
-                    if (animals.containsKey(newPosition)) {
-                        animals.get(newPosition).add(animal);
-                    } else {
-                        animals.put(newPosition, new ArrayList<>(List.of(animal)));
-                    }
+    public void eatIfPossible(Animal animal) {
+        if (grasses.containsKey(animal.getPosition())) {
+            animal.setEnergy(animal.getEnergy() + foodEnergy);
+            grasses.remove(animal.getPosition());
+            animal.increasePlantsEaten();
+            System.out.println("Plant eaten at " + animal.getPosition());
+        }
+    }
+
+    public void decreaseEnergy(Animal animal) {
+        animal.setEnergy(animal.getEnergy() - 1);
+    }
+
+    public void place(Animal animal) throws IncorrectPositionException {
+        if (!canMoveTo(animal.getPosition())) {
+            throw new IncorrectPositionException(animal.getPosition());
+        }
+        if (animals.containsKey(animal.getPosition())) {
+            animals.get(animal.getPosition()).add(animal);
+        } else {
+            animals.put(animal.getPosition(), new ArrayList<>(List.of(animal)));
+        }
+        notifyListeners(String.format("Animal placed at %s", animal.getPosition()));
+    }
+
+    //TODO: left and right wrapping
+    public void move(Animal animal) {
+        var oldPosition = animal.getPosition();
+        animal.move(this);
+        var newPosition = animal.getPosition();
+        if (!newPosition.equals(oldPosition)) {
+            if (animals.containsKey(oldPosition)) {
+                animals.get(oldPosition).remove(animal);
+                if (animals.get(oldPosition).isEmpty()) {
+                    animals.remove(oldPosition);
                 }
-                notifyListeners(String.format("Animal moves from %s to %s", oldPosition, newPosition));
+                if (animals.containsKey(newPosition)) {
+                    animals.get(newPosition).add(animal);
+                } else {
+                    animals.put(newPosition, new ArrayList<>(List.of(animal)));
+                }
             }
+            notifyListeners(String.format("Animal moves from %s to %s", oldPosition, newPosition));
         }
+    }
 
-        public abstract void grow ( int amount);
+    public abstract void grow(int amount);
 
     public void removeDeadAnimals() {
 
@@ -159,92 +163,94 @@ public abstract class AbstractGlobeMap implements Globe {
     }
 
 
-        public boolean isOccupied (Vector2d position){
-            return animals.containsKey(position) || grasses.containsKey(position);
-        }
+    public boolean isOccupied(Vector2d position) {
+        return animals.containsKey(position) || grasses.containsKey(position);
+    }
 
-        public List<WorldElement> objectsAt (Vector2d position){
-            if (animals.containsKey(position)) {
-                return animals.get(position).stream()
-                        .map(animal -> {
-                            return (WorldElement) animal;
-                        })
-                        .toList();
-            } else if (grasses.containsKey(position)) {
-                return List.of((WorldElement) grasses.get(position));
-            }
-            return null;
-        }
-
-        public Collection<WorldElement> getElements () {
-            Stream<WorldElement> animalsStream = animals.values().stream()
-                    .flatMap(Collection::stream)
+    public List<WorldElement> objectsAt(Vector2d position) {
+        if (animals.containsKey(position)) {
+            return animals.get(position).stream()
                     .map(animal -> {
                         return (WorldElement) animal;
-                    });
-            Stream<WorldElement> grassStream = grasses.values().stream()
-                    .map(grass -> {
-                        return (WorldElement) grass;
-                    });
-            return Stream.concat(animalsStream, grassStream).toList();
+                    })
+                    .toList();
+        } else if (grasses.containsKey(position)) {
+            return List.of((WorldElement) grasses.get(position));
         }
+        return null;
+    }
 
-        public Boundary getCurrentBounds () {
-            return bounds;
-        }
+    public Collection<WorldElement> getElements() {
+        Stream<WorldElement> animalsStream = animals.values().stream()
+                .flatMap(Collection::stream)
+                .map(animal -> {
+                    return (WorldElement) animal;
+                });
+        Stream<WorldElement> grassStream = grasses.values().stream()
+                .map(grass -> {
+                    return (WorldElement) grass;
+                });
+        return Stream.concat(animalsStream, grassStream).toList();
+    }
 
-        public int getID () {
-            return id;
-        }
+    public Boundary getCurrentBounds() {
+        return bounds;
+    }
 
-        public void addListener (GlobeChangeListener other){
-            listeners.add(other);
-        }
+    public int getID() {
+        return id;
+    }
 
-        public void removeListener (GlobeChangeListener other){
-            listeners.remove(other);
-        }
+    public void addListener(GlobeChangeListener other) {
+        listeners.add(other);
+    }
 
-        protected void notifyListeners (String message){
-            for (GlobeChangeListener l : listeners) {
-                l.mapChanged(this, message);
-            }
-        }
+    public void removeListener(GlobeChangeListener other) {
+        listeners.remove(other);
+    }
 
-        public Collection<Vector2d> getGrassLocations () {
-            return grasses.keySet();
+    protected void notifyListeners(String message) {
+        for (GlobeChangeListener l : listeners) {
+            l.mapChanged(this, message);
         }
+    }
 
-        public Collection<Animal> getTopAnimals () {
-            List<Animal> topAnimals = new ArrayList<>();
-            for (List<Animal> animalList : animals.values()) {
-                topAnimals.add(
-                        animalList.stream().max(new AnimalComparator()).get()
-                );
-            }
-            return topAnimals;
-        }
+    public Collection<Vector2d> getGrassLocations() {
+        return grasses.keySet();
+    }
 
-        public List<Animal> getAnimals () {
-            return animals.values().stream().flatMap(Collection::stream).toList();
+    public Collection<Animal> getTopAnimals() {
+        List<Animal> topAnimals = new ArrayList<>();
+        for (List<Animal> animalList : animals.values()) {
+            topAnimals.add(
+                    animalList.stream().max(new AnimalComparator()).get()
+            );
         }
+        return topAnimals;
+    }
+
+    public List<Animal> getAnimals() {
+        return animals.values().stream().flatMap(Collection::stream).toList();
+    }
 
     public abstract List<Vector2d> getPreferredSpaces();
 
-    public List<Vector2d> getDominantGenomeLocations(){
+    public List<Vector2d> getDominantGenomeLocations() {
         List<Integer> topGenome = getTopGenome();
         return animals.values().stream().flatMap(Collection::stream)
-                .filter(animal -> {return animal.getGenome().equals(topGenome);})
+                .filter(animal -> {
+                    return animal.getGenome().equals(topGenome);
+                })
                 .map(Animal::getPosition)
                 .distinct()
                 .toList();
     }
 
-    public int getMinBreedingEnergy(){
+    public int getMinBreedingEnergy() {
         return breadingEnergy;
     }
 
-    public List<Integer> getTopGenome(){
+    public List<Integer> getTopGenome() {
         return animals.values().stream()
                 .flatMap(Collection::stream)
                 .map(Animal::getGenome)
@@ -253,7 +259,7 @@ public abstract class AbstractGlobeMap implements Globe {
                 .max(Map.Entry.comparingByValue()).get().getKey();
     }
 
-    public int getTime(){
+    public int getTime() {
         return time;
     }
 
@@ -299,12 +305,13 @@ public abstract class AbstractGlobeMap implements Globe {
 
         return totalChildren / (int) totalAnimals;
     }
-    public int getLivingAndDeadAnimalsAmount(){
+
+    public int getLivingAndDeadAnimalsAmount() {
         return animals.values().stream()
                 .flatMap(Collection::stream).toList().size() + deadAnimals.size();
     }
 
-    public List<List<Integer>> getTop5Genomes(){
+    public List<List<Integer>> getTop5Genomes() {
         return animals.values().stream()
                 .flatMap(Collection::stream)
                 .map(Animal::getGenome)
